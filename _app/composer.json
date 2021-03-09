@@ -1,0 +1,13 @@
+{
+    "name": "ilyanazalun/elvenshopz/",
+    "description": "this is composer for elvenshopz",
+    "authors": [
+        {
+            "name": "ilyanazalun",
+            "email": "iyang_agung_s@hotmail.com"
+        }
+    ],
+    "require": {
+        "ramsey/uuid": "^4.1"
+    }
+}
