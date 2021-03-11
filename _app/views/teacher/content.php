@@ -3,7 +3,7 @@
 <?php 
 if (sizeof($data['users']) > 0) {
 	foreach ($data['users'] as $key) { 
-	   if($key['class']==="staff"||$key['class']==="school"){
+	   if($key['class']==="staff"){
 	      view_ribbon('bg-danger', 'Staff', $key);
 	   }elseif($key['class']==="0"){
 	      view_ribbon('bg-warning', 'New User', $key);

@@ -2,19 +2,19 @@ class get_data{
 	constructor() {
 		this.BASEURL = location.href;
 	}
-	violation(){
+	criteria(type){
 		let request = [];
 		$.ajax({
-			url: `${this.BASEURL}/get_data_violation`,
+			url: `${this.BASEURL}/get_data_${type}`,
 			method:"POST",
 			dataType: 'json',
-			data:{type:'violation'},
+			data:{type: type},
 			success:function(data)
 			{
 				for (let i = 0; i < data.length; i++) {
 					if (i==0) {
-						$('input:eq(0)', 'div.row#parent').val(data[i]['name']);
-						$('input:eq(1)', 'div.row#parent').val(data[i]['weight']);
+						$('input:eq(0)', 'div.row#parent').attr('value',data[i]['name']);
+						$('input:eq(1)', 'div.row#parent').attr('value',data[i]['weight']).val(data[i]['weight']);
 						$('div.row#parent').append(`<input type="hidden" name="id[]" value="${data[i]['id']}">`)
 					}else{
 						$('div.card-body#dynamic_field').append(`

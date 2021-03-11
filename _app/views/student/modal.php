@@ -41,7 +41,7 @@
                     <option value="L">Male</option>
                     <option value="P">Fmale</option>
                   </select>
-                  <?php if ($_SESSION['user']['class'] === "staff"||$_SESSION['user']['class'] === "school"): ?>
+                  <?php if ($_SESSION['user']['class'] === "staff"): ?>
                   <select class="custom-select" name="class" required>
                     <option selected disabled>Class Student</option>
                     <?php foreach ($data['class'] as $key => $name): ?>
@@ -88,7 +88,7 @@
                 <label class="custom-file-label" for="file">Choose file Excel</label>
               </div>
             </div>
-            <?php if ($_SESSION['user']['class'] === "staff"||$_SESSION['user']['class'] === "school"): ?>
+            <?php if ($_SESSION['user']['class'] === "staff"): ?>
             <p style="font-size: 12px;">**without change name staff can import!</p>
             <?php else: ?>
             <p style="font-size: 12px;">*change the name file same as your class, example X-1.xls</p>
@@ -98,7 +98,7 @@
         </div>
         <div class="modal-footer">
 
-        <?php if ($_SESSION['user']['class'] === "staff"||$_SESSION['user']['class'] === "school"): ?>
+        <?php if ($_SESSION['user']['class'] === "staff"): ?>
         <a href="<?=BASEURL?>/_assets/files/students-example.xls" class="btn btn-success mr-auto">Download Format Excel</a>
         <?php else: ?>
         <a href="<?=BASEURL?>/_assets/files/students-class.xls" class="btn btn-success mr-auto">Download Format Excel</a>

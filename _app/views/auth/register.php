@@ -60,7 +60,7 @@
 
           <div class="social-auth-links text-center mb-3">
             <p>- OR -</p>
-            <a href="<?=HOSTURL?>" class="btn btn-block btn-primary">
+            <a href="<?=BASEURL?>" class="btn btn-block btn-primary">
               <i class="fa fa-arrow-left mr-2"></i> Back to Site
             </a>
           </div>

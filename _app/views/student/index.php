@@ -25,7 +25,7 @@
                   <th>NISN</th>
                   <th>Full Name</th>
                   <th>Gender</th>
-                  <?php if ($_SESSION['user']['class'] === "staff"||$_SESSION['user']['class'] === "school"): ?>
+                  <?php if ($_SESSION['user']['class'] === "staff"): ?>
                     <th>Class</th>
                     <th>Homeroom Teacher</th>
                   <?php endif ?>
@@ -39,13 +39,13 @@
                     <td><?=$student['NISN']?></td>
                     <td><?=$student['fullname']?></td>
                     <td><?=($student['gender']=="L") ? 'Male' : 'Fmale' ;?></td>
-                    <?php if ($_SESSION['user']['class'] === "staff"||$_SESSION['user']['class'] === "school"): ?>
+                    <?php if ($_SESSION['user']['class'] === "staff"): ?>
                       <td><?=$student['class']?></td>
                       <td><?=$student['homeroom_teacher']?></td>
                     <?php endif ?>
                     <td class="text-center">
                       <!-- INFO -->                      
-                      <a href="<?=BASEURL.'/product/info/'.$student['NISN']?>" class="btn btn-sm btn-primary"><i class="fa fa-info-circle"></i></a>  
+                      <a href="<?=BASEURL.'/students/info/'.$student['NISS']?>" class="btn btn-sm btn-primary"><i class="fa fa-info-circle"></i></a>  
                       <!-- EDIT -->                      
                       <button type="button" class="btn btn-sm btn-warning" disabled><i class="fa fa-edit fa-inverse"></i></button>  
                     </td>
@@ -58,7 +58,7 @@
                     <th>NISN</th>
                     <th>Full Name</th>
                     <th>Gender</th>
-                    <?php if ($_SESSION['user']['class'] === "staff"||$_SESSION['user']['class'] === "school"): ?>
+                    <?php if ($_SESSION['user']['class'] === "staff"): ?>
                       <th>Class</th>
                       <th>Homeroom Teacher</th>
                     <?php endif ?>

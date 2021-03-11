@@ -83,7 +83,7 @@
                 <label class="custom-file-label" for="file">Choose file Excel</label>
               </div>
             </div>
-            <?php if ($_SESSION['user']['class'] === "staff"||$_SESSION['user']['class'] === "school"): ?>
+            <?php if ($_SESSION['user']['class'] === "staff"): ?>
               <p style="font-size: 12px;">**without change name staff can import!</p>
               <?php else: ?>
                 <p style="font-size: 12px;">*change the name file same as your class, example X-1.xls</p>

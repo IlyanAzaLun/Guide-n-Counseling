@@ -74,7 +74,8 @@ class Auth extends Controller
 
 	public function validation()
 	{
-		if(@$_POST['NIP']){
+		// if(@$_POST['NIP']){
+		if(false){
 			try {
 				$this->result = $this->model('M_auth')->register($_POST);
 				$this->setFlash($this->result);

@@ -1,6 +1,6 @@
 <?php 
 
-class Violation extends Controller
+class Dutiful extends Controller
 {	
 	private $data;
 	private $limit = 6;
@@ -21,8 +21,8 @@ class Violation extends Controller
 
 	public function index()
 	{
-		$data['violation'] = $this->model('M_criteria')->select_criteria('violation');
-		$this->page['title'] = 'List rule of Violation';
+		$data['dutiful'] = $this->model('M_criteria')->select_criteria('dutiful');
+		$this->page['title'] = 'List rule of Dutiful';
 		$this->view('components/_header');
 				//  datatabels		
 		$this->style('plugins/datatables-bs4/css/dataTables.bootstrap4.min');
@@ -31,8 +31,8 @@ class Violation extends Controller
 
 		$this->view('components/sidebar');
 		$this->view('components/content-header');
-		$this->view('criteria/violation/index', $data);
-		$this->view('criteria/violation/modal', $data);
+		$this->view('criteria/dutiful/index', $data);
+		$this->view('criteria/dutiful/modal', $data);
 		$this->view('components/content-footer');
 				//  datatabels
 
@@ -49,7 +49,7 @@ class Violation extends Controller
 
 	public function insert()
 	{
-		if($this->model('M_criteria')->insert_criteria('violation', $_POST)){
+		if($this->model('M_criteria')->insert_criteria('dutiful', $_POST)){
 			Flasher::setFlash('success', ',Success !', ',to add rule');
 			header('Location: '.$_SERVER['HTTP_REFERER']);
 			exit;
@@ -62,7 +62,7 @@ class Violation extends Controller
 
 	public function delete()
 	{
-		$this->validator(!empty($_POST), 'violation');
+		$this->validator(!empty($_POST), 'dutiful');
 		if($this->model('M_criteria')->remove_all_criteria($_POST)){
 			Flasher::setFlash('success', ',Success !', ',to remove rule');
 			header('Location: '.$_SERVER['HTTP_REFERER']);
@@ -74,9 +74,9 @@ class Violation extends Controller
 		}
 	}
 
-	public function get_data_violation()
+	public function get_data_dutiful()
 	{
-		$this->validator(!empty($_POST), 'violation');
+		$this->validator(!empty($_POST), 'dutiful');
 		try {
 			echo json_encode($this->model('M_criteria')->select_criteria($_POST['type']));
 		} catch (Exception $e) {
@@ -86,8 +86,8 @@ class Violation extends Controller
 
 	public function delete_criteria()
 	{
-		$this->validator(!empty($_POST), 'violation');
-		if($this->model('M_criteria')->remove_criteria('violation', $_POST)){
+		$this->validator(!empty($_POST), 'dutiful');
+		if($this->model('M_criteria')->remove_criteria('dutiful', $_POST)){
 			Flasher::setFlash('success', ',Success !', ',to remove criteria');
 			header('Location: '.$_SERVER['HTTP_REFERER']);
 			exit;
@@ -100,7 +100,7 @@ class Violation extends Controller
 
 	public function update()
 	{
-		$this->validator(!empty($_POST), 'violation');
+		$this->validator(!empty($_POST), 'dutiful');
 		$insert['criteria'] = [];
 		$update['criteria'] = [];
 		$insert['weight'] = [];
@@ -116,7 +116,7 @@ class Violation extends Controller
 				array_push($update['id'], $_POST['id'][$key]);
 			}
 		}
-		if($this->model('M_criteria')->update_criteria('violation', $update, $insert)){
+		if($this->model('M_criteria')->update_criteria('dutiful', $update, $insert)){
 			Flasher::setFlash('success', ',Success !', ',to remove criteria');
 			header('Location: '.$_SERVER['HTTP_REFERER']);
 			exit;

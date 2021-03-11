@@ -57,7 +57,7 @@
           </li>
           
           <li class="nav-header">Data</li>
-          <?php if ($_SESSION['user']['class'] === "school" || $_SESSION['user']['class'] == "staff" ): ?>
+          <?php if ($_SESSION['user']['class'] == "staff" ): ?>
             <li class="nav-item">
               <a href="<?=BASEURL?>/students/<?=base64_encode('all')?>" class="nav-link">
                 <i class="nav-icon fas fa-users"></i>
@@ -77,42 +77,41 @@
 
             <li class="nav-item has-treeview">
               <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-archive"></i>
+                <i class="nav-icon fa fa-clipboard-list"></i>
                 <p>
-                  Another
+                  Report
                   <i class="fas fa-angle-left right"></i>
                 </p>
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="<?=BASEURL?>/product" class="nav-link">
-                    <i class="nav-icon fa fa-tshirt"></i>
-                    My Product
+                  <a href="<?=BASEURL?>/report/tolerance" class="nav-link">
+                    <i class="nav-icon fa fa-exclamation-triangle"></i>
+                    Tolerance
                   </a>
                 </li>
               </ul>
 
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="<?=BASEURL?>/event" class="nav-link">
-                    <i class="nav-icon fas fa-clipboard-list"></i>
-                    My Event
+                  <a href="<?=BASEURL?>/report/violation" class="nav-link">
+                    <i class="nav-icon fas fa-ban"></i>
+                    Report Violation
                   </a>
                 </li>
               </ul>
 
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="<?=BASEURL?>/article" class="nav-link">
-                    <i class="nav-icon fas fa-file"></i>
-                    My Article
+                  <a href="<?=BASEURL?>/report/dutiful" class="nav-link">
+                    <i class="nav-icon fas fa-award"></i>
+                    Report Dutiful
                   </a>
                 </li>
-              </ul>  
-
+              </ul>
             </li>
 
-            <?php if ($_SESSION['user']['class'] === "school" || $_SESSION['user']['class'] == "staff" ): ?>
+            <?php if ($_SESSION['user']['class'] == "staff" ): ?>
 
               <li class="nav-header">Configuration</li>
               <li class="nav-item">

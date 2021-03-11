@@ -12,7 +12,7 @@ class Teacher extends Controller
 	function __construct()
 	{
 		$this->validator($_SESSION['user'], 'auth');
-		$this->validator(!($_SESSION['user']['class'] === ""||$_SESSION['user']['class'] === null), '');
+		$this->validator(($_SESSION['user']['class'] === "staff"), '');
 		
 		$this->request = $this->model('M_home');
 		foreach ($this->request->load_configuration() as $key) {
@@ -42,7 +42,7 @@ class Teacher extends Controller
 	}
 
 	public function req_users(){
-
+		$this->validator($_POST, 'teacher');
 		if($_POST['page'] > 1){
 			$start = (($_POST['page'] - 1) * $this->limit);
 			$this->pageing  = $_POST['page'];
@@ -72,8 +72,7 @@ class Teacher extends Controller
 		}
 	}
 
-	public function insert() // create page for promotion or event
-	{
+	public function insert(){ // create page for promotion or event
 		if ($_POST) {
 			if ($this->model('M_teacher')->insert_teacher($_POST) > 0) {
 				Flasher::setFlash('success', ',Success !', ',to add teacher');
@@ -96,8 +95,9 @@ class Teacher extends Controller
 		}
 	}
 
-	public function import()
-	{
+	public function import(){
+		$this->validator($_FILES, 'teacher');
+
 		$file = $_FILES['file']['name'];
 		$ekstensi = explode(".", $file);
 		$file_name = "file-".round(microtime(true)).".".end($ekstensi);

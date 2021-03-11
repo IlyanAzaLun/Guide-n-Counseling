@@ -1,3 +1,8 @@
+<?php 
+function countPersentase($type, $data){
+  return ((int)$data[$type]*100)/((int)$data['total_violation']+(int)$data['total_dutiful']);
+}
+?>
 <!-- Main content -->
 <section class="content">
 
@@ -13,7 +18,7 @@
 
               <div class="info-box-content">
                 <span class="info-box-text">Total Student</span>
-                <span class="info-box-number">45</span>
+                <span class="info-box-number"><?=$data['type']['total_student']?></span>
               </div>
               <!-- /.info-box-content -->
             </div>
@@ -26,7 +31,7 @@
 
               <div class="info-box-content">
                 <span class="info-box-text">Dutiful</span>
-                <span class="info-box-number">90<small>%</small></span>
+                <span class="info-box-number"><?=countPersentase('total_dutiful', $data['type'])?><small>%</small></span>
               </div>
               <!-- /.info-box-content -->
             </div>
@@ -41,7 +46,7 @@
 
               <div class="info-box-content">
                 <span class="info-box-text">Tolerancy</span>
-                <span class="info-box-number">20</span>
+                <span class="info-box-number"><?=$data['type']['total_tolerance']?></span>
               </div>
               <!-- /.info-box-content -->
             </div>
@@ -57,7 +62,7 @@
 
               <div class="info-box-content">
                 <span class="info-box-text">Violation</span>
-                <span class="info-box-number">10<small>%</small></span>
+                <span class="info-box-number"><?=countPersentase('total_violation', $data['type'])?><small>%</small></span>
               </div>
               <!-- /.info-box-content -->
             </div>
@@ -65,6 +70,26 @@
           </div>
           <!-- /.col -->
         </div>
+
+        <!-- BAR CHART -->
+        <div class="card card-success">
+          <div class="card-header">
+            <h3 class="card-title">Ratio Dutiful and Violation</h3>
+
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+              </button>
+              <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="chart">
+              <canvas id="barChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+            </div>
+          </div>
+          <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
 
         <div class="card">
           <div class="card-header bg-info">
@@ -78,11 +103,11 @@
                 </div>
               </div>
               <div class="card-body">
-                <?=($_SESSION['user']['class'] == "school" || $_SESSION['user']['class'] == "staff" ) ? 'Hello, Welcome back, '.$_SESSION['user']['homeroom_teacher'] :  'Welcome from this aplication Sir./Ms. '.$_SESSION['user']['homeroom_teacher']?>
+                <?=($_SESSION['user']['class'] == "staff" ) ? 'Hello, Welcome back, '.$_SESSION['user']['homeroom_teacher'] :  'Welcome from this aplication Sir./Ms. '.$_SESSION['user']['homeroom_teacher']?>
               </div>
               <!-- /.card-body -->
               <div class="card-footer">
-                
+
               </div>
               <!-- /.card-footer-->
             </div>

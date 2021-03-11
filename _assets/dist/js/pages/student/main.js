@@ -9,7 +9,7 @@ const main = () => {
 		"autoWidth": true,
 		"pageLength": 5,
 		"lengthMenu": [5, 15, 20, 50, 75, 100 ],
-		"order": [[ 3, "asc" ]]
+		"order": [[ 2, "asc" ]]
 	});
 
 }

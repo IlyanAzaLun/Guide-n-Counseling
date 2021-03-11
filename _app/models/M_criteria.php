@@ -41,13 +41,30 @@ class M_criteria
 		return $this->db->rowCount();
 	}
 
-	public function remove_criteria($data, $type)
+	public function remove_criteria($type, $data)
 	{
 		$this->db->query("
 			DELETE FROM `tbl_criteria` WHERE id = :id AND `type` = :type;");
 		$this->db->bind('id', $data['id']);
 		$this->db->bind('type', $type);
 		$this->db->execute();
+		return $this->db->rowCount();
+	}
+
+	public function update_criteria($type, $update, $insert)
+	{
+		if(!empty($insert['criteria'])){
+			 $this->insert_criteria($type, $insert);
+		}
+		for ($i=0; $i < count($update['criteria']); $i++) { 
+			$this->db->query("
+			UPDATE `tbl_criteria` SET `name` = :name, `weight` = :weight WHERE id = :id;");
+			$this->db->bind('id', $update['id'][$i]);
+			$this->db->bind('name', $update['criteria'][$i]);
+			$this->db->bind('weight', (float)$update['weight'][$i]);
+			$this->db->execute();
+		}
+
 		return $this->db->rowCount();
 	}
 }
