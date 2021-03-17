@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Mar 09, 2021 at 12:12 PM
+-- Generation Time: Mar 12, 2021 at 08:05 AM
 -- Server version: 10.3.16-MariaDB
 -- PHP Version: 7.3.7
 
@@ -21,6 +21,18 @@ SET time_zone = "+00:00";
 --
 -- Database: `db_counseling`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `select_all_students`
+-- (See below for the actual view)
+--
+CREATE TABLE `select_all_students` (
+`NISS` int(11)
+,`fullname` varchar(40)
+,`class` varchar(6)
+);
 
 -- --------------------------------------------------------
 
@@ -58,8 +70,56 @@ CREATE TABLE `tbl_criteria` (
 --
 
 INSERT INTO `tbl_criteria` (`id`, `name`, `type`, `weight`) VALUES
-('daca72b4-8094-11eb-9823-f29516ac1e91', 'asd', 'violation', 33.333),
-('dada0f00-8094-11eb-9823-f29516ac1e91', '123', 'violation', 33.333);
+('43d33b13-80e4-11eb-851a-bca60c4b53c0', 'Tidak memakai atribut sekolah', 'violation', 5),
+('43e1256a-80e4-11eb-851a-bca60c4b53c0', 'Tidak Mengikuti Kelas', 'violation', 7),
+('43e7dccb-80e4-11eb-851a-bca60c4b53c0', 'Membuang Sampah Sembarangan', 'violation', 3),
+('43f73d21-80e4-11eb-851a-bca60c4b53c0', 'Merokok di lingkungan Sekolah', 'violation', 10),
+('43fdfe6a-80e4-11eb-851a-bca60c4b53c0', 'Menggunakan obat-obatan terlarang', 'violation', 25),
+('4404bc02-80e4-11eb-851a-bca60c4b53c0', 'Melakukan Penindasan kepda teman', 'violation', 10),
+('4b882221-81b9-11eb-851a-bca60c4b53c0', 'Membantu membersihkan lingkungan sekolah', 'dutiful', 12),
+('4b984c7c-81b9-11eb-851a-bca60c4b53c0', 'Melaporkan tindakan pelanggaran', 'dutiful', 3),
+('763698fc-81ab-11eb-851a-bca60c4b53c0', 'Mengikuti Ekstrakulikuler', 'dutiful', 5),
+('764746ea-81ab-11eb-851a-bca60c4b53c0', 'Membantu membersihkan ruangan kelas', 'dutiful', 10),
+('764e04b6-81ab-11eb-851a-bca60c4b53c0', 'Salam Sapa Hormat kepada para guru ketika bertemu', 'dutiful', 4),
+('7663e9ba-81ab-11eb-851a-bca60c4b53c0', 'Membantu teman dalam menerangkan materi pelajaran', 'dutiful', 15),
+('7674c9f6-81ab-11eb-851a-bca60c4b53c0', 'Membantu Teman dalam belajar', 'dutiful', 20),
+('767b8195-81ab-11eb-851a-bca60c4b53c0', 'Menghentikan penindasan', 'dutiful', 31),
+('8837eb0e-81b8-11eb-851a-bca60c4b53c0', 'Melukai teman', 'violation', 10),
+('eb081f05-81b2-11eb-851a-bca60c4b53c0', 'Membawa senjata tajam ke lingkungan sekolah', 'violation', 6),
+('eb17affa-81b2-11eb-851a-bca60c4b53c0', 'Melakukan Pelanggaran asusila', 'violation', 24);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_reporting`
+--
+
+CREATE TABLE `tbl_reporting` (
+  `id` varchar(255) NOT NULL,
+  `id_behavior` varchar(255) NOT NULL,
+  `type` varchar(255) NOT NULL,
+  `NISS` varchar(255) NOT NULL,
+  `id_reporter` varchar(255) NOT NULL,
+  `id_confirmation` varchar(255) NOT NULL,
+  `date` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tbl_reporting`
+--
+
+INSERT INTO `tbl_reporting` (`id`, `id_behavior`, `type`, `NISS`, `id_reporter`, `id_confirmation`, `date`) VALUES
+('3236a8b5-821c-11eb-851a-bca60c4b53c0', '763698fc-81ab-11eb-851a-bca60c4b53c0', 'dutiful', '18112015', '1920152001', '10010', '2021-03-08'),
+('32445e21-821c-11eb-851a-bca60c4b53c0', '763698fc-81ab-11eb-851a-bca60c4b53c0', 'dutiful', '18112017', '1920152001', '10010', '2021-03-08'),
+('324b1c96-821c-11eb-851a-bca60c4b53c0', '764e04b6-81ab-11eb-851a-bca60c4b53c0', 'dutiful', '18112015', '1920152001', '10010', '2021-03-08'),
+('32589a6b-821c-11eb-851a-bca60c4b53c0', '764e04b6-81ab-11eb-851a-bca60c4b53c0', 'dutiful', '18112017', '1920152001', '10010', '2021-03-08'),
+('406dcc8f-821c-11eb-851a-bca60c4b53c0', '43d33b13-80e4-11eb-851a-bca60c4b53c0', 'tolerance', '18112015', '1920152001', '10010', '2021-03-08'),
+('5b05889f-821c-11eb-851a-bca60c4b53c0', '43d33b13-80e4-11eb-851a-bca60c4b53c0', 'tolerance', '18112015', '1920152001', '10010', '2021-03-09'),
+('5b150360-821c-11eb-851a-bca60c4b53c0', '43e7dccb-80e4-11eb-851a-bca60c4b53c0', 'tolerance', '18112015', '1920152001', '10010', '2021-03-09'),
+('6d386e23-824c-11eb-851a-bca60c4b53c0', '43f73d21-80e4-11eb-851a-bca60c4b53c0', 'tolerance', '1920', '10010', '1920152003', '2021-03-10'),
+('70c71b99-821c-11eb-851a-bca60c4b53c0', '43f73d21-80e4-11eb-851a-bca60c4b53c0', 'violation', '18112015', '1920152001', '10010', '2021-03-09'),
+('7fc0c399-821c-11eb-851a-bca60c4b53c0', '763698fc-81ab-11eb-851a-bca60c4b53c0', 'dutiful', '18112015', '1920152001', '10010', '2021-03-09'),
+('802a18cc-824c-11eb-851a-bca60c4b53c0', '43f73d21-80e4-11eb-851a-bca60c4b53c0', 'violation', '35361016', '10010', '1920152023', '2021-03-10');
 
 -- --------------------------------------------------------
 
@@ -81,6 +141,9 @@ CREATE TABLE `tbl_student` (
 
 INSERT INTO `tbl_student` (`NISS`, `NISN`, `fullname`, `gender`, `class`) VALUES
 (1920, 30434321, 'NUR AULIA', 'P', 'XII-3'),
+(18112015, 18112015, 'IYANG AGUNG SUPRIATNA', 'L', 'X-1'),
+(18112016, 18112016, 'NANDA AGUSTINA RAHAYU', 'P', 'X-1'),
+(18112017, 18112017, 'AGUS NUFATUROHMAN', 'L', 'X-1'),
 (23746683, 23746684, 'AZZAHRA AZKA TSAQOFA', 'P', 'XII-1'),
 (26818920, 26818921, 'ZAHRA PUTRI NABILAH', 'P', 'XII-8'),
 (30434620, 30434621, 'AUDY VIOLAN AULVIAN', 'L', 'XII-7'),
@@ -960,11 +1023,11 @@ INSERT INTO `tbl_student` (`NISS`, `NISN`, `fullname`, `gender`, `class`) VALUES
 (202110236, 51075211, 'TASYA AMALIA', 'P', 'X-7'),
 (202110237, 3044774498, 'TIARA LESTARI', 'P', 'X-7'),
 (202110238, 51075180, 'TRISA AYUDIA', 'P', 'X-7'),
-(202110239, 3051025441, 'WAHIDIN SETIAJI PUTRA', 'L', 'X-7'),
+(202110239, 3051025441, 'WAHIDIN SETIAJI PUTRA', 'L', 'X-7');
+INSERT INTO `tbl_student` (`NISS`, `NISN`, `fullname`, `gender`, `class`) VALUES
 (202110240, 44995434, 'YENI MASRIFAH', 'P', 'X-7'),
 (202110241, 51073791, 'ZAENAL MUSTAFA', 'L', 'X-7'),
-(202110242, 57679370, 'ALEYA AZZAHRA', 'P', 'X-8');
-INSERT INTO `tbl_student` (`NISS`, `NISN`, `fullname`, `gender`, `class`) VALUES
+(202110242, 57679370, 'ALEYA AZZAHRA', 'P', 'X-8'),
 (202110243, 44994071, 'ALYSSA ZAFFINA', 'P', 'X-8'),
 (202110244, 44995677, 'ANGGA RAMADAN', 'L', 'X-8'),
 (202110245, 51722258, 'ANNISA NUR AZIZAH', 'P', 'X-8'),
@@ -1122,6 +1185,15 @@ INSERT INTO `tbl_teacher` (`NIP`, `homeroom_teacher`, `class`, `password`) VALUE
 (1920152029, 'Suci Lestari, S.Pd.', 'XII-9', '1e9f0377cc35dfd25ac62a3d2f5c705b87e4e946'),
 (1920152030, 'Hj. Ety Suhaeti, S.Pd.', 'XII-10', '81ff6c56f0f33e5d1c977a20ca2485ddbf6407a1');
 
+-- --------------------------------------------------------
+
+--
+-- Structure for view `select_all_students`
+--
+DROP TABLE IF EXISTS `select_all_students`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `select_all_students`  AS  select `tbl_student`.`NISS` AS `NISS`,`tbl_student`.`fullname` AS `fullname`,`tbl_student`.`class` AS `class` from `tbl_student` WITH CASCADED CHECK OPTION ;
+
 --
 -- Indexes for dumped tables
 --
@@ -1137,6 +1209,16 @@ ALTER TABLE `tbl_configuration`
 --
 ALTER TABLE `tbl_criteria`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tbl_reporting`
+--
+ALTER TABLE `tbl_reporting`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_behavior` (`id_behavior`),
+  ADD KEY `id_student` (`NISS`),
+  ADD KEY `id_reporter` (`id_reporter`),
+  ADD KEY `id_confirmation` (`id_confirmation`);
 
 --
 -- Indexes for table `tbl_student`
