@@ -107,4 +107,11 @@ class Report extends Controller
 			exit;
 		}
 	}
+
+	public function test()
+	{
+		echo "<pre>";
+		var_dump($this->model('M_report')->test());
+		echo "</pre>";
+	}
 }

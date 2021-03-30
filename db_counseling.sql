@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Mar 12, 2021 at 08:05 AM
--- Server version: 10.3.16-MariaDB
--- PHP Version: 7.3.7
+-- Waktu pembuatan: 30 Mar 2021 pada 02.08
+-- Versi server: 10.3.16-MariaDB
+-- Versi PHP: 7.3.7
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -22,31 +22,168 @@ SET time_zone = "+00:00";
 -- Database: `db_counseling`
 --
 
+DELIMITER $$
+--
+-- Prosedur
+--
+CREATE DEFINER=`root`@`localhost` PROCEDURE `LoopDemo` ()  BEGIN
+	DECLARE x  INT;
+	DECLARE str  VARCHAR(255);
+        
+	SET x = 1;
+	SET str =  '';
+        
+	loop_label:  LOOP
+		IF  x > 10 THEN 
+			LEAVE  loop_label;
+		END  IF;
+            
+		SET  x = x + 1;
+		IF  (x mod 2) THEN
+			ITERATE  loop_label;
+		ELSE
+			SET  str = CONCAT(str,x,',');
+		END  IF;
+	END LOOP;
+	SELECT str;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Pivot` (IN `tbl_name` VARCHAR(99), IN `base_cols` VARCHAR(99), IN `pivot_col` VARCHAR(64), IN `tally_col` VARCHAR(64), IN `where_clause` VARCHAR(99), IN `order_by` VARCHAR(99))  SQL SECURITY INVOKER
+BEGIN
+    -- Find the distinct values
+    -- Build the SUM()s
+    SET @subq = CONCAT('SELECT DISTINCT ', pivot_col, ' AS val ',
+                    ' FROM ', tbl_name, ' ', where_clause, ' ORDER BY 1');
+    -- select @subq;
+
+    SET @cc1 = "CONCAT('SUM(IF(&p = ', &v, ', &t, 0)) AS ', &v)";
+    SET @cc2 = REPLACE(@cc1, '&p', pivot_col);
+    SET @cc3 = REPLACE(@cc2, '&t', tally_col);
+    -- select @cc2, @cc3;
+    SET @qval = CONCAT("'\"', val, '\"'");
+    -- select @qval;
+    SET @cc4 = REPLACE(@cc3, '&v', @qval);
+    -- select @cc4;
+
+    SET SESSION group_concat_max_len = 10000;   -- just in case
+    SET @stmt = CONCAT(
+            'SELECT  GROUP_CONCAT(', @cc4, ' SEPARATOR ",\n")  INTO @sums',
+            ' FROM ( ', @subq, ' ) AS top');
+     select @stmt;
+    PREPARE _sql FROM @stmt;
+    EXECUTE _sql;                      -- Intermediate step: build SQL for columns
+    DEALLOCATE PREPARE _sql;
+    -- Construct the query and perform it
+    SET @stmt2 = CONCAT(
+            'SELECT ',
+                base_cols, ',\n',
+                @sums,
+                ',\n SUM(', tally_col, ') AS Total'
+            '\n FROM ', tbl_name, ' ',
+            where_clause,
+            ' GROUP BY ', base_cols,
+            '\n WITH ROLLUP',
+            '\n', order_by
+        );
+    select @stmt2;                    -- The statement that generates the result
+    PREPARE _sql FROM @stmt2;
+    EXECUTE _sql;                     -- The resulting pivot table ouput
+    DEALLOCATE PREPARE _sql;
+    -- For debugging / tweaking, SELECT the various @variables after CALLing.
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_pivot` (IN `tbl_name` VARCHAR(99), IN `base_cols` VARCHAR(99), IN `pivot_col` VARCHAR(64), IN `tally_col` VARCHAR(64), IN `where_clause` VARCHAR(99), IN `order_by` VARCHAR(99))  READS SQL DATA
+BEGIN
+	SET @subq = CONCAT('SELECT DISTINCT ', pivot_col, ' AS val ',
+                    ' FROM ', tbl_name, ' ', where_clause, ' ORDER BY 1');
+    -- select @subq;
+
+    SET @cc1 = "CONCAT('SUM(IF(&p = ', &v, ', &t, 0)) AS ', &v)";
+    SET @cc2 = REPLACE(@cc1, '&p', pivot_col);
+    SET @cc3 = REPLACE(@cc2, '&t', tally_col);
+    -- select @cc2, @cc3;
+    SET @qval = CONCAT("'\"', val, '\"'");
+    -- select @qval;
+    SET @cc4 = REPLACE(@cc3, '&v', @qval);
+    -- select @cc4;
+
+    SET SESSION group_concat_max_len = 10000;   -- just in case
+    SET @stmt = CONCAT(
+            'SELECT  GROUP_CONCAT(', @cc4, ' SEPARATOR ",\n")  INTO @sums',
+            ' FROM ( ', @subq, ' ) AS top');
+     select @stmt;
+    PREPARE _sql FROM @stmt;
+    EXECUTE _sql;                      -- Intermediate step: build SQL for columns
+    DEALLOCATE PREPARE _sql;
+    -- Construct the query and perform it
+    SET @stmt2 = CONCAT(
+            'SELECT ',
+                base_cols, ',\n',
+                @sums,
+                ',\n SUM(', tally_col, ') AS Total'
+            '\n FROM ', tbl_name, ' ',
+            where_clause,
+            ' GROUP BY ', base_cols,
+            '\n WITH ROLLUP',
+            '\n', order_by
+        );
+    select @stmt2;                    -- The statement that generates the result
+    PREPARE _sql FROM @stmt2;
+    EXECUTE _sql;                     -- The resulting pivot table ouput
+    DEALLOCATE PREPARE _sql;
+    -- For debugging / tweaking, SELECT the various @variables after CALLing.
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_report` (IN `type` VARCHAR(30) CHARSET utf8mb4)  READS SQL DATA
+BEGIN
+	SELECT 
+            report.date
+          , student.NISS
+          , student.NISN
+          , student.fullname student_name
+          , criteria.name criteria_name
+          , criteria.weight
+          , reporter.homeroom_teacher reporter_teacher
+          , homeroom.homeroom_teacher confirmation_teacher
+    FROM tbl_reporting report
+    JOIN tbl_student student ON report.NISS = student.NISS
+    JOIN ( SELECT * 
+           FROM tbl_criteria 
+           WHERE tbl_criteria.type = type) criteria 
+        ON report.id_behavior = criteria.id
+    JOIN tbl_teacher reporter ON report.id_reporter = reporter.NIP
+    JOIN tbl_teacher homeroom ON report.id_confirmation = homeroom.NIP
+    UNION ALL
+    SELECT NULL, student.NISS, student.NISN, student.fullname, NULL, 0, NULL, NULL
+    FROM tbl_student student
+    WHERE NOT EXISTS ( SELECT NULL
+                       FROM tbl_reporting report
+                       WHERE report.NISS = student.NISS )
+
+    UNION ALL
+    SELECT NULL, NULL, NULL, NULL, criteria.name, 0, NULL, NULL
+    FROM tbl_criteria criteria
+    WHERE NOT EXISTS ( SELECT NULL
+                       FROM tbl_reporting report
+                       WHERE report.id_behavior = criteria.id)
+                     AND criteria.type = type;
+END$$
+
+DELIMITER ;
+
 -- --------------------------------------------------------
 
 --
--- Stand-in structure for view `select_all_students`
--- (See below for the actual view)
---
-CREATE TABLE `select_all_students` (
-`NISS` int(11)
-,`fullname` varchar(40)
-,`class` varchar(6)
-);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `tbl_configuration`
+-- Struktur dari tabel `tbl_configuration`
 --
 
 CREATE TABLE `tbl_configuration` (
-  `variable` varchar(255) NOT NULL,
-  `value` text NOT NULL
+  `variable` varchar(255) CHARACTER SET utf8mb4 NOT NULL,
+  `value` text CHARACTER SET utf8mb4 NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `tbl_configuration`
+-- Dumping data untuk tabel `tbl_configuration`
 --
 
 INSERT INTO `tbl_configuration` (`variable`, `value`) VALUES
@@ -55,27 +192,21 @@ INSERT INTO `tbl_configuration` (`variable`, `value`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbl_criteria`
+-- Struktur dari tabel `tbl_criteria`
 --
 
 CREATE TABLE `tbl_criteria` (
-  `id` varchar(255) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `type` varchar(255) NOT NULL,
+  `id` varchar(255) CHARACTER SET utf8mb4 NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 NOT NULL,
+  `type` varchar(255) CHARACTER SET utf8mb4 NOT NULL,
   `weight` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `tbl_criteria`
+-- Dumping data untuk tabel `tbl_criteria`
 --
 
 INSERT INTO `tbl_criteria` (`id`, `name`, `type`, `weight`) VALUES
-('43d33b13-80e4-11eb-851a-bca60c4b53c0', 'Tidak memakai atribut sekolah', 'violation', 5),
-('43e1256a-80e4-11eb-851a-bca60c4b53c0', 'Tidak Mengikuti Kelas', 'violation', 7),
-('43e7dccb-80e4-11eb-851a-bca60c4b53c0', 'Membuang Sampah Sembarangan', 'violation', 3),
-('43f73d21-80e4-11eb-851a-bca60c4b53c0', 'Merokok di lingkungan Sekolah', 'violation', 10),
-('43fdfe6a-80e4-11eb-851a-bca60c4b53c0', 'Menggunakan obat-obatan terlarang', 'violation', 25),
-('4404bc02-80e4-11eb-851a-bca60c4b53c0', 'Melakukan Penindasan kepda teman', 'violation', 10),
 ('4b882221-81b9-11eb-851a-bca60c4b53c0', 'Membantu membersihkan lingkungan sekolah', 'dutiful', 12),
 ('4b984c7c-81b9-11eb-851a-bca60c4b53c0', 'Melaporkan tindakan pelanggaran', 'dutiful', 3),
 ('763698fc-81ab-11eb-851a-bca60c4b53c0', 'Mengikuti Ekstrakulikuler', 'dutiful', 5),
@@ -84,59 +215,75 @@ INSERT INTO `tbl_criteria` (`id`, `name`, `type`, `weight`) VALUES
 ('7663e9ba-81ab-11eb-851a-bca60c4b53c0', 'Membantu teman dalam menerangkan materi pelajaran', 'dutiful', 15),
 ('7674c9f6-81ab-11eb-851a-bca60c4b53c0', 'Membantu Teman dalam belajar', 'dutiful', 20),
 ('767b8195-81ab-11eb-851a-bca60c4b53c0', 'Menghentikan penindasan', 'dutiful', 31),
-('8837eb0e-81b8-11eb-851a-bca60c4b53c0', 'Melukai teman', 'violation', 10),
-('eb081f05-81b2-11eb-851a-bca60c4b53c0', 'Membawa senjata tajam ke lingkungan sekolah', 'violation', 6),
-('eb17affa-81b2-11eb-851a-bca60c4b53c0', 'Melakukan Pelanggaran asusila', 'violation', 24);
+('a0fbe4e2-87d4-11eb-87ff-5cac4cba0f32', 'Membuang sampah sembarangan', 'violation', 3),
+('a1077af0-87d4-11eb-87ff-5cac4cba0f32', 'Tidak memakai atribut sekolah', 'violation', 5),
+('a113455d-87d4-11eb-87ff-5cac4cba0f32', 'Tidak memakai masker', 'violation', 7),
+('a11d58a4-87d4-11eb-87ff-5cac4cba0f32', 'Tidak 5S Kepada guru', 'violation', 7),
+('a12e31bb-87d4-11eb-87ff-5cac4cba0f32', 'Tidak sopan kepada guru', 'violation', 10),
+('a134f457-87d4-11eb-87ff-5cac4cba0f32', 'Tidak Masuk kelas', 'violation', 15),
+('a13bb0e2-87d4-11eb-87ff-5cac4cba0f32', 'Telat masuk kelas', 'violation', 8),
+('a147789a-87d4-11eb-87ff-5cac4cba0f32', 'Membawa senjata tajam ke sekolah', 'violation', 10),
+('a15345da-87d4-11eb-87ff-5cac4cba0f32', 'Melukai teman', 'violation', 15),
+('a159ffcd-87d4-11eb-87ff-5cac4cba0f32', 'Membuli teman', 'violation', 20);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbl_reporting`
+-- Struktur dari tabel `tbl_reporting`
 --
 
 CREATE TABLE `tbl_reporting` (
-  `id` varchar(255) NOT NULL,
-  `id_behavior` varchar(255) NOT NULL,
-  `type` varchar(255) NOT NULL,
-  `NISS` varchar(255) NOT NULL,
-  `id_reporter` varchar(255) NOT NULL,
-  `id_confirmation` varchar(255) NOT NULL,
+  `id` varchar(255) CHARACTER SET utf8mb4 NOT NULL,
+  `id_behavior` varchar(255) CHARACTER SET utf8mb4 NOT NULL,
+  `type` varchar(255) CHARACTER SET utf8mb4 NOT NULL,
+  `NISS` varchar(255) CHARACTER SET utf8mb4 NOT NULL,
+  `id_reporter` varchar(255) CHARACTER SET utf8mb4 NOT NULL,
+  `id_confirmation` varchar(255) CHARACTER SET utf8mb4 NOT NULL,
   `date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `tbl_reporting`
+-- Dumping data untuk tabel `tbl_reporting`
 --
 
 INSERT INTO `tbl_reporting` (`id`, `id_behavior`, `type`, `NISS`, `id_reporter`, `id_confirmation`, `date`) VALUES
-('3236a8b5-821c-11eb-851a-bca60c4b53c0', '763698fc-81ab-11eb-851a-bca60c4b53c0', 'dutiful', '18112015', '1920152001', '10010', '2021-03-08'),
-('32445e21-821c-11eb-851a-bca60c4b53c0', '763698fc-81ab-11eb-851a-bca60c4b53c0', 'dutiful', '18112017', '1920152001', '10010', '2021-03-08'),
-('324b1c96-821c-11eb-851a-bca60c4b53c0', '764e04b6-81ab-11eb-851a-bca60c4b53c0', 'dutiful', '18112015', '1920152001', '10010', '2021-03-08'),
-('32589a6b-821c-11eb-851a-bca60c4b53c0', '764e04b6-81ab-11eb-851a-bca60c4b53c0', 'dutiful', '18112017', '1920152001', '10010', '2021-03-08'),
-('406dcc8f-821c-11eb-851a-bca60c4b53c0', '43d33b13-80e4-11eb-851a-bca60c4b53c0', 'tolerance', '18112015', '1920152001', '10010', '2021-03-08'),
-('5b05889f-821c-11eb-851a-bca60c4b53c0', '43d33b13-80e4-11eb-851a-bca60c4b53c0', 'tolerance', '18112015', '1920152001', '10010', '2021-03-09'),
-('5b150360-821c-11eb-851a-bca60c4b53c0', '43e7dccb-80e4-11eb-851a-bca60c4b53c0', 'tolerance', '18112015', '1920152001', '10010', '2021-03-09'),
-('6d386e23-824c-11eb-851a-bca60c4b53c0', '43f73d21-80e4-11eb-851a-bca60c4b53c0', 'tolerance', '1920', '10010', '1920152003', '2021-03-10'),
-('70c71b99-821c-11eb-851a-bca60c4b53c0', '43f73d21-80e4-11eb-851a-bca60c4b53c0', 'violation', '18112015', '1920152001', '10010', '2021-03-09'),
-('7fc0c399-821c-11eb-851a-bca60c4b53c0', '763698fc-81ab-11eb-851a-bca60c4b53c0', 'dutiful', '18112015', '1920152001', '10010', '2021-03-09'),
-('802a18cc-824c-11eb-851a-bca60c4b53c0', '43f73d21-80e4-11eb-851a-bca60c4b53c0', 'violation', '35361016', '10010', '1920152023', '2021-03-10');
+('c6eee48b-87d4-11eb-87ff-5cac4cba0f32', 'a1077af0-87d4-11eb-87ff-5cac4cba0f32', 'tolerance', '1920', '10010', '1920152001', '2021-03-17'),
+('c6f48cef-87d4-11eb-87ff-5cac4cba0f32', 'a1077af0-87d4-11eb-87ff-5cac4cba0f32', 'tolerance', '18112015', '10010', '1920152001', '2021-03-17'),
+('c6feafc4-87d4-11eb-87ff-5cac4cba0f32', 'a1077af0-87d4-11eb-87ff-5cac4cba0f32', 'tolerance', '18112016', '10010', '1920152001', '2021-03-17'),
+('c70dcb93-87d4-11eb-87ff-5cac4cba0f32', 'a113455d-87d4-11eb-87ff-5cac4cba0f32', 'tolerance', '1920', '10010', '1920152001', '2021-03-17'),
+('c71ea39a-87d4-11eb-87ff-5cac4cba0f32', 'a113455d-87d4-11eb-87ff-5cac4cba0f32', 'tolerance', '18112015', '10010', '1920152001', '2021-03-17'),
+('c728bf22-87d4-11eb-87ff-5cac4cba0f32', 'a113455d-87d4-11eb-87ff-5cac4cba0f32', 'tolerance', '18112016', '10010', '1920152001', '2021-03-17'),
+('d47f0fa5-87d4-11eb-87ff-5cac4cba0f32', 'a1077af0-87d4-11eb-87ff-5cac4cba0f32', 'tolerance', '18112015', '10010', '1920152001', '2021-03-18'),
+('d48f6bb0-87d4-11eb-87ff-5cac4cba0f32', 'a1077af0-87d4-11eb-87ff-5cac4cba0f32', 'tolerance', '18112016', '10010', '1920152001', '2021-03-18'),
+('d4a730f1-87d4-11eb-87ff-5cac4cba0f32', 'a113455d-87d4-11eb-87ff-5cac4cba0f32', 'tolerance', '18112015', '10010', '1920152001', '2021-03-18'),
+('d4bb6fd8-87d4-11eb-87ff-5cac4cba0f32', 'a113455d-87d4-11eb-87ff-5cac4cba0f32', 'tolerance', '18112016', '10010', '1920152001', '2021-03-18'),
+('df4b8be6-87d4-11eb-87ff-5cac4cba0f32', 'a11d58a4-87d4-11eb-87ff-5cac4cba0f32', 'violation', '18112015', '10010', '1920152001', '2021-03-18'),
+('df656fe4-87d4-11eb-87ff-5cac4cba0f32', 'a11d58a4-87d4-11eb-87ff-5cac4cba0f32', 'violation', '18112017', '10010', '1920152001', '2021-03-18'),
+('df72e35b-87d4-11eb-87ff-5cac4cba0f32', 'a12e31bb-87d4-11eb-87ff-5cac4cba0f32', 'violation', '18112015', '10010', '1920152001', '2021-03-18'),
+('df806eae-87d4-11eb-87ff-5cac4cba0f32', 'a12e31bb-87d4-11eb-87ff-5cac4cba0f32', 'violation', '18112017', '10010', '1920152001', '2021-03-18'),
+('eecbe2d1-87d4-11eb-87ff-5cac4cba0f32', '4b882221-81b9-11eb-851a-bca60c4b53c0', 'dutiful', '1920', '10010', '1920152001', '2021-03-18'),
+('eedc1684-87d4-11eb-87ff-5cac4cba0f32', '4b882221-81b9-11eb-851a-bca60c4b53c0', 'dutiful', '18112015', '10010', '1920152001', '2021-03-18'),
+('eee2d8ad-87d4-11eb-87ff-5cac4cba0f32', '4b882221-81b9-11eb-851a-bca60c4b53c0', 'dutiful', '18112016', '10010', '1920152001', '2021-03-18'),
+('eee99154-87d4-11eb-87ff-5cac4cba0f32', '763698fc-81ab-11eb-851a-bca60c4b53c0', 'dutiful', '1920', '10010', '1920152001', '2021-03-18'),
+('eeff702c-87d4-11eb-87ff-5cac4cba0f32', '763698fc-81ab-11eb-851a-bca60c4b53c0', 'dutiful', '18112015', '10010', '1920152001', '2021-03-18'),
+('ef104a3b-87d4-11eb-87ff-5cac4cba0f32', '763698fc-81ab-11eb-851a-bca60c4b53c0', 'dutiful', '18112016', '10010', '1920152001', '2021-03-18');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbl_student`
+-- Struktur dari tabel `tbl_student`
 --
 
 CREATE TABLE `tbl_student` (
   `NISS` int(11) NOT NULL,
   `NISN` bigint(20) DEFAULT NULL,
-  `fullname` varchar(40) CHARACTER SET utf8 DEFAULT NULL,
-  `gender` varchar(1) CHARACTER SET utf8 DEFAULT NULL,
-  `class` varchar(6) CHARACTER SET utf8 DEFAULT NULL
+  `fullname` varchar(40) CHARACTER SET utf8mb4 DEFAULT NULL,
+  `gender` varchar(1) CHARACTER SET utf8mb4 DEFAULT NULL,
+  `class` varchar(6) CHARACTER SET utf8mb4 DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `tbl_student`
+-- Dumping data untuk tabel `tbl_student`
 --
 
 INSERT INTO `tbl_student` (`NISS`, `NISN`, `fullname`, `gender`, `class`) VALUES
@@ -1138,18 +1285,18 @@ INSERT INTO `tbl_student` (`NISS`, `NISN`, `fullname`, `gender`, `class`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbl_teacher`
+-- Struktur dari tabel `tbl_teacher`
 --
 
 CREATE TABLE `tbl_teacher` (
   `NIP` int(11) NOT NULL,
-  `homeroom_teacher` varchar(29) CHARACTER SET utf8 DEFAULT NULL,
-  `class` varchar(32) CHARACTER SET utf8 DEFAULT NULL,
-  `password` varchar(255) DEFAULT NULL
+  `homeroom_teacher` varchar(29) CHARACTER SET utf8mb4 DEFAULT NULL,
+  `class` varchar(32) CHARACTER SET utf8mb4 DEFAULT NULL,
+  `password` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `tbl_teacher`
+-- Dumping data untuk tabel `tbl_teacher`
 --
 
 INSERT INTO `tbl_teacher` (`NIP`, `homeroom_teacher`, `class`, `password`) VALUES
@@ -1188,30 +1335,74 @@ INSERT INTO `tbl_teacher` (`NIP`, `homeroom_teacher`, `class`, `password`) VALUE
 -- --------------------------------------------------------
 
 --
--- Structure for view `select_all_students`
+-- Stand-in struktur untuk tampilan `v_reportDutiful`
+-- (Lihat di bawah untuk tampilan aktual)
 --
-DROP TABLE IF EXISTS `select_all_students`;
+CREATE TABLE `v_reportDutiful` (
+`date` date
+,`NISS` int(11)
+,`NISN` bigint(20)
+,`student_name` varchar(40)
+,`criteria_name` varchar(255)
+,`weight` double
+,`reporter_teacher` varchar(29)
+,`confirmation_teacher` varchar(29)
+);
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `select_all_students`  AS  select `tbl_student`.`NISS` AS `NISS`,`tbl_student`.`fullname` AS `fullname`,`tbl_student`.`class` AS `class` from `tbl_student` WITH CASCADED CHECK OPTION ;
+-- --------------------------------------------------------
+
+--
+-- Stand-in struktur untuk tampilan `v_reportVolation`
+-- (Lihat di bawah untuk tampilan aktual)
+--
+CREATE TABLE `v_reportVolation` (
+`date` date
+,`NISS` int(11)
+,`NISN` bigint(20)
+,`student_name` varchar(40)
+,`criteria_name` varchar(255)
+,`weight` double
+,`reporter_teacher` varchar(29)
+,`confirmation_teacher` varchar(29)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Struktur untuk view `v_reportDutiful`
+--
+DROP TABLE IF EXISTS `v_reportDutiful`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY INVOKER VIEW `v_reportDutiful`  AS  select `report`.`date` AS `date`,`student`.`NISS` AS `NISS`,`student`.`NISN` AS `NISN`,`student`.`fullname` AS `student_name`,`criteria`.`name` AS `criteria_name`,`criteria`.`weight` AS `weight`,`reporter`.`homeroom_teacher` AS `reporter_teacher`,`homeroom`.`homeroom_teacher` AS `confirmation_teacher` from ((((`tbl_reporting` `report` join `tbl_student` `student` on(`report`.`NISS` = `student`.`NISS`)) join (select `tbl_criteria`.`id` AS `id`,`tbl_criteria`.`name` AS `name`,`tbl_criteria`.`type` AS `type`,`tbl_criteria`.`weight` AS `weight` from `tbl_criteria` where `tbl_criteria`.`type` = 'dutiful') `criteria` on(`report`.`id_behavior` = `criteria`.`id`)) join `tbl_teacher` `reporter` on(`report`.`id_reporter` = `reporter`.`NIP`)) join `tbl_teacher` `homeroom` on(`report`.`id_confirmation` = `homeroom`.`NIP`)) union all select NULL AS `NULL`,`student`.`NISS` AS `NISS`,`student`.`NISN` AS `NISN`,`student`.`fullname` AS `fullname`,NULL AS `NULL`,0 AS `0`,NULL AS `NULL`,NULL AS `NULL` from `tbl_student` `student` where !exists(select NULL from `tbl_reporting` `report` where `report`.`NISS` = `student`.`NISS`) union all select NULL AS `NULL`,NULL AS `NULL`,NULL AS `NULL`,NULL AS `NULL`,`criteria`.`name` AS `name`,0 AS `0`,NULL AS `NULL`,NULL AS `NULL` from `tbl_criteria` `criteria` where !exists(select NULL from `tbl_reporting` `report` where `report`.`id_behavior` = `criteria`.`id`) and `criteria`.`type` = 'dutiful' ;
+
+-- --------------------------------------------------------
+
+--
+-- Struktur untuk view `v_reportVolation`
+--
+DROP TABLE IF EXISTS `v_reportVolation`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY INVOKER VIEW `v_reportVolation`  AS  select `report`.`date` AS `date`,`student`.`NISS` AS `NISS`,`student`.`NISN` AS `NISN`,`student`.`fullname` AS `student_name`,`criteria`.`name` AS `criteria_name`,`criteria`.`weight` AS `weight`,`reporter`.`homeroom_teacher` AS `reporter_teacher`,`homeroom`.`homeroom_teacher` AS `confirmation_teacher` from ((((`tbl_reporting` `report` join `tbl_student` `student` on(`report`.`NISS` = `student`.`NISS`)) join (select `tbl_criteria`.`id` AS `id`,`tbl_criteria`.`name` AS `name`,`tbl_criteria`.`type` AS `type`,`tbl_criteria`.`weight` AS `weight` from `tbl_criteria` where `tbl_criteria`.`type` = 'violation') `criteria` on(`report`.`id_behavior` = `criteria`.`id`)) join `tbl_teacher` `reporter` on(`report`.`id_reporter` = `reporter`.`NIP`)) join `tbl_teacher` `homeroom` on(`report`.`id_confirmation` = `homeroom`.`NIP`)) union all select NULL AS `NULL`,`student`.`NISS` AS `NISS`,`student`.`NISN` AS `NISN`,`student`.`fullname` AS `fullname`,NULL AS `NULL`,0 AS `0`,NULL AS `NULL`,NULL AS `NULL` from `tbl_student` `student` where !exists(select NULL from `tbl_reporting` `report` where `report`.`NISS` = `student`.`NISS`) union all select NULL AS `NULL`,NULL AS `NULL`,NULL AS `NULL`,NULL AS `NULL`,`criteria`.`name` AS `name`,0 AS `0`,NULL AS `NULL`,NULL AS `NULL` from `tbl_criteria` `criteria` where !exists(select NULL from `tbl_reporting` `report` where `report`.`id_behavior` = `criteria`.`id`) and `criteria`.`type` = 'violation' ;
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `tbl_configuration`
+-- Indeks untuk tabel `tbl_configuration`
 --
 ALTER TABLE `tbl_configuration`
   ADD PRIMARY KEY (`variable`);
 
 --
--- Indexes for table `tbl_criteria`
+-- Indeks untuk tabel `tbl_criteria`
 --
 ALTER TABLE `tbl_criteria`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `name` (`name`,`type`);
 
 --
--- Indexes for table `tbl_reporting`
+-- Indeks untuk tabel `tbl_reporting`
 --
 ALTER TABLE `tbl_reporting`
   ADD PRIMARY KEY (`id`),
@@ -1221,14 +1412,14 @@ ALTER TABLE `tbl_reporting`
   ADD KEY `id_confirmation` (`id_confirmation`);
 
 --
--- Indexes for table `tbl_student`
+-- Indeks untuk tabel `tbl_student`
 --
 ALTER TABLE `tbl_student`
   ADD PRIMARY KEY (`NISS`),
   ADD KEY `class` (`class`);
 
 --
--- Indexes for table `tbl_teacher`
+-- Indeks untuk tabel `tbl_teacher`
 --
 ALTER TABLE `tbl_teacher`
   ADD PRIMARY KEY (`NIP`),

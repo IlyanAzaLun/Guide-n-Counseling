@@ -108,4 +108,11 @@ class M_report
 		}
 		return $this->db->rowCount();
 	}
+
+	public function test()
+	{
+		$this->db->query("CALL `sp_pivot`('v_reportDutiful', 'student_name', 'criteria_name', 'weight', '', '')");
+		$this->db->execute();
+		return $this->db->resultSet();
+	}
 }

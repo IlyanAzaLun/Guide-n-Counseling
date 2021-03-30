@@ -31,7 +31,7 @@ function countPersentase($type, $data){
 
               <div class="info-box-content">
                 <span class="info-box-text">Dutiful</span>
-                <span class="info-box-number"><?=countPersentase('total_dutiful', $data['type'])?><small>%</small></span>
+                <span class="info-box-number"><?=@countPersentase('total_dutiful', $data['type'])?><small>%</small></span>
               </div>
               <!-- /.info-box-content -->
             </div>
@@ -46,7 +46,7 @@ function countPersentase($type, $data){
 
               <div class="info-box-content">
                 <span class="info-box-text">Tolerancy</span>
-                <span class="info-box-number"><?=$data['type']['total_tolerance']?></span>
+                <span class="info-box-number"><?=(@$data['type']['total_tolerance'])?$data['type']['total_tolerance']:'NaN'?></span>
               </div>
               <!-- /.info-box-content -->
             </div>
@@ -62,7 +62,7 @@ function countPersentase($type, $data){
 
               <div class="info-box-content">
                 <span class="info-box-text">Violation</span>
-                <span class="info-box-number"><?=countPersentase('total_violation', $data['type'])?><small>%</small></span>
+                <span class="info-box-number"><?=@countPersentase('total_violation', $data['type'])?><small>%</small></span>
               </div>
               <!-- /.info-box-content -->
             </div>
