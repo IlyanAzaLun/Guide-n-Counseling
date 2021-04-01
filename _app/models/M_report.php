@@ -109,10 +109,16 @@ class M_report
 		return $this->db->rowCount();
 	}
 
-	public function test()
+	public function report($tabel = 'v_reportViolation')
 	{
-		$this->db->query("CALL `sp_pivot`('v_reportDutiful', 'student_name', 'criteria_name', 'weight', '', '')");
-		$this->db->execute();
-		return $this->db->resultSet();
+		try {
+			$this->db->query("CALL sp_reportPivot(:tabel);");
+			$this->db->bind('tabel', $tabel);
+			$this->db->execute();
+			return  $this->db->resultSet();
+			
+		} catch (Exception $e) {
+			return $e;
+		}
 	}
 }

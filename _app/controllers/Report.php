@@ -20,7 +20,29 @@ class Report extends Controller
 
 	public function index()
 	{
-		$this->validator(false, 'Reports');
+		$data['report'] = $this->model('M_report')->report();
+		$this->page['title'] = 'List rule of Dutiful';
+		$this->view('components/_header');
+				//  datatabels		
+		$this->style('plugins/datatables-bs4/css/dataTables.bootstrap4.min');
+		$this->style('plugins/datatables-responsive/css/responsive.bootstrap4.min');
+		$this->style('plugins/datatables-buttons/css/buttons.bootstrap4.min');
+
+		$this->view('components/sidebar');
+		$this->view('components/content-header');
+		
+		$this->view('components/content-footer');
+				//  datatabels
+
+		$this->script('plugins/datatables/jquery.dataTables.min');
+		$this->script('plugins/datatables-bs4/js/dataTables.bootstrap4.min');
+		$this->script('plugins/datatables-responsive/js/dataTables.responsive.min');
+		$this->script('plugins/datatables-responsive/js/responsive.bootstrap4.min');
+		$this->script('plugins/datatables-buttons/js/dataTables.buttons.min');
+		$this->script('plugins/datatables-buttons/js/buttons.bootstrap4.min');
+
+		$this->script('dist/js/pages/criteria/index', 'module');
+		$this->view('components/_footer');
 	}
 
 	public function tolerance()
@@ -106,12 +128,5 @@ class Report extends Controller
 			header('Location: '.$_SERVER['HTTP_REFERER']);
 			exit;
 		}
-	}
-
-	public function test()
-	{
-		echo "<pre>";
-		var_dump($this->model('M_report')->test());
-		echo "</pre>";
 	}
 }
