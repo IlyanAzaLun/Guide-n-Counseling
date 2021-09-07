@@ -8,5 +8,5 @@ define('BASEURL', $actual_link);
 
 define('DB_HOST', 'localhost');
 define('DB_USER', 'root');
-define('DB_PASS', '');
+define('DB_PASS', 'mak65yousmil65');
 define('DB_NAME', 'db_counseling');

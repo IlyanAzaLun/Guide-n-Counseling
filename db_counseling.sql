@@ -25,7 +25,7 @@ DELIMITER $$
 --
 -- Procedures
 --
-CREATE DEFINER=`ilyanazalun`@`localhost` PROCEDURE `LoopDemo` ()  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `LoopDemo` ()  BEGIN
 	DECLARE x  INT;
 	DECLARE str  VARCHAR(255);
         
@@ -47,7 +47,7 @@ CREATE DEFINER=`ilyanazalun`@`localhost` PROCEDURE `LoopDemo` ()  BEGIN
 	SELECT str;
 END$$
 
-CREATE DEFINER=`ilyanazalun`@`localhost` PROCEDURE `sp_pivot` (IN `tbl_name` VARCHAR(99), IN `base_cols` VARCHAR(99), IN `pivot_col` VARCHAR(64), IN `tally_col` VARCHAR(64), IN `where_clause` VARCHAR(99), IN `order_by` VARCHAR(99))  READS SQL DATA
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_pivot` (IN `tbl_name` VARCHAR(99), IN `base_cols` VARCHAR(99), IN `pivot_col` VARCHAR(64), IN `tally_col` VARCHAR(64), IN `where_clause` VARCHAR(99), IN `order_by` VARCHAR(99))  READS SQL DATA
 BEGIN
 	SET @subq = CONCAT('SELECT DISTINCT ', pivot_col, ' AS val ',
                     ' FROM ', tbl_name, ' ', where_clause, ' ORDER BY 1');
@@ -89,7 +89,7 @@ BEGIN
     -- For debugging / tweaking, SELECT the various @variables after CALLing.
 END$$
 
-CREATE DEFINER=`ilyanazalun`@`localhost` PROCEDURE `sp_report` (IN `type` VARCHAR(30) CHARSET utf8mb4)  READS SQL DATA
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_report` (IN `type` VARCHAR(30) CHARSET utf8mb4)  READS SQL DATA
 BEGIN
 	SELECT 
             report.date
@@ -124,7 +124,7 @@ BEGIN
                      AND criteria.type = type;
 END$$
 
-CREATE DEFINER=`ilyanazalun`@`localhost` PROCEDURE `sp_reportPivot` (IN `tbl_name` VARCHAR(255))  SQL SECURITY INVOKER
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_reportPivot` (IN `tbl_name` VARCHAR(255))  SQL SECURITY INVOKER
 BEGIN
 SET @stmt = CONCAT('SELECT GROUP_CONCAT(', 
                                         "CONCAT('SUM(IF(`criteria_name` = ', 
@@ -155,7 +155,7 @@ END$$
 --
 -- Functions
 --
-CREATE DEFINER=`ilyanazalun`@`localhost` FUNCTION `ExtractNumber` (`in_string` VARCHAR(50)) RETURNS INT(11) NO SQL
+CREATE DEFINER=`root`@`localhost` FUNCTION `ExtractNumber` (`in_string` VARCHAR(50)) RETURNS INT(11) NO SQL
 BEGIN
     DECLARE ctrNumber VARCHAR(50);
     DECLARE finNumber VARCHAR(50) DEFAULT '';
@@ -176,7 +176,7 @@ BEGIN
     END IF;    
 END$$
 
-CREATE DEFINER=`ilyanazalun`@`localhost` FUNCTION `FromRoman` (`inRoman` VARCHAR(15)) RETURNS INT(11) BEGIN
+CREATE DEFINER=`root`@`localhost` FUNCTION `FromRoman` (`inRoman` VARCHAR(15)) RETURNS INT(11) BEGIN
 
     DECLARE numeral CHAR(7) DEFAULT 'IVXLCDM';
 
@@ -1668,7 +1668,7 @@ CREATE TABLE `v_reportViolation` (
 --
 DROP TABLE IF EXISTS `v_reportDutiful`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`ilyanazalun`@`localhost` SQL SECURITY DEFINER VIEW `v_reportDutiful`  AS SELECT `report`.`date` AS `date`, `student`.`NISS` AS `NISS`, `student`.`NISN` AS `NISN`, `student`.`fullname` AS `student_name`, `criteria`.`name` AS `criteria_name`, `criteria`.`weight` AS `weight`, `report`.`type` AS `type`, `reporter`.`homeroom_teacher` AS `reporter_teacher`, `homeroom`.`homeroom_teacher` AS `confirmation_teacher` FROM (`tbl_teacher` `homeroom` left join (`tbl_teacher` `reporter` left join ((select `tbl_criteria`.`id` AS `id`,`tbl_criteria`.`name` AS `name`,`tbl_criteria`.`type` AS `type`,`tbl_criteria`.`weight` AS `weight` from `tbl_criteria` where `tbl_criteria`.`type` = 'dutiful') `criteria` left join (`tbl_student` `student` left join `tbl_reporting` `report` on(`report`.`NISS` = `student`.`NISS`)) on(`report`.`id_behavior` = `criteria`.`id`)) on(`report`.`id_reporter` = `reporter`.`NIP`)) on(`report`.`id_confirmation` = `homeroom`.`NIP`)) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_reportDutiful`  AS SELECT `report`.`date` AS `date`, `student`.`NISS` AS `NISS`, `student`.`NISN` AS `NISN`, `student`.`fullname` AS `student_name`, `criteria`.`name` AS `criteria_name`, `criteria`.`weight` AS `weight`, `report`.`type` AS `type`, `reporter`.`homeroom_teacher` AS `reporter_teacher`, `homeroom`.`homeroom_teacher` AS `confirmation_teacher` FROM (`tbl_teacher` `homeroom` left join (`tbl_teacher` `reporter` left join ((select `tbl_criteria`.`id` AS `id`,`tbl_criteria`.`name` AS `name`,`tbl_criteria`.`type` AS `type`,`tbl_criteria`.`weight` AS `weight` from `tbl_criteria` where `tbl_criteria`.`type` = 'dutiful') `criteria` left join (`tbl_student` `student` left join `tbl_reporting` `report` on(`report`.`NISS` = `student`.`NISS`)) on(`report`.`id_behavior` = `criteria`.`id`)) on(`report`.`id_reporter` = `reporter`.`NIP`)) on(`report`.`id_confirmation` = `homeroom`.`NIP`)) ;
 
 -- --------------------------------------------------------
 
@@ -1677,7 +1677,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`ilyanazalun`@`localhost` SQL SECURITY DEFINE
 --
 DROP TABLE IF EXISTS `v_reportStatistic`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`ilyanazalun`@`localhost` SQL SECURITY DEFINER VIEW `v_reportStatistic`  AS SELECT `report`.`date` AS `date`, `student`.`class` AS `class`, `criteria`.`weight` AS `weight`, `report`.`type` AS `type` FROM (((((select `tbl_reporting`.`id` AS `id`,`tbl_reporting`.`id_behavior` AS `id_behavior`,`tbl_reporting`.`type` AS `type`,`tbl_reporting`.`NISS` AS `NISS`,`tbl_reporting`.`id_reporter` AS `id_reporter`,`tbl_reporting`.`id_confirmation` AS `id_confirmation`,`tbl_reporting`.`message` AS `message`,`tbl_reporting`.`date` AS `date` from `tbl_reporting` where `tbl_reporting`.`type` <> 'tolerance') `report` join `tbl_student` `student` on(`report`.`NISS` = `student`.`NISS`)) join (select `tbl_criteria`.`id` AS `id`,`tbl_criteria`.`name` AS `name`,`tbl_criteria`.`type` AS `type`,`tbl_criteria`.`weight` AS `weight` from `tbl_criteria` where `tbl_criteria`.`type` <> 'tolerance') `criteria` on(`report`.`id_behavior` = `criteria`.`id`)) join `tbl_teacher` `reporter` on(`report`.`id_reporter` = `reporter`.`NIP`)) join `tbl_teacher` `homeroom` on(`report`.`id_confirmation` = `homeroom`.`NIP`)) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_reportStatistic`  AS SELECT `report`.`date` AS `date`, `student`.`class` AS `class`, `criteria`.`weight` AS `weight`, `report`.`type` AS `type` FROM (((((select `tbl_reporting`.`id` AS `id`,`tbl_reporting`.`id_behavior` AS `id_behavior`,`tbl_reporting`.`type` AS `type`,`tbl_reporting`.`NISS` AS `NISS`,`tbl_reporting`.`id_reporter` AS `id_reporter`,`tbl_reporting`.`id_confirmation` AS `id_confirmation`,`tbl_reporting`.`message` AS `message`,`tbl_reporting`.`date` AS `date` from `tbl_reporting` where `tbl_reporting`.`type` <> 'tolerance') `report` join `tbl_student` `student` on(`report`.`NISS` = `student`.`NISS`)) join (select `tbl_criteria`.`id` AS `id`,`tbl_criteria`.`name` AS `name`,`tbl_criteria`.`type` AS `type`,`tbl_criteria`.`weight` AS `weight` from `tbl_criteria` where `tbl_criteria`.`type` <> 'tolerance') `criteria` on(`report`.`id_behavior` = `criteria`.`id`)) join `tbl_teacher` `reporter` on(`report`.`id_reporter` = `reporter`.`NIP`)) join `tbl_teacher` `homeroom` on(`report`.`id_confirmation` = `homeroom`.`NIP`)) ;
 
 -- --------------------------------------------------------
 
@@ -1686,7 +1686,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`ilyanazalun`@`localhost` SQL SECURITY DEFINE
 --
 DROP TABLE IF EXISTS `v_reportViolation`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`ilyanazalun`@`localhost` SQL SECURITY DEFINER VIEW `v_reportViolation`  AS SELECT `report`.`date` AS `date`, `student`.`NISS` AS `NISS`, `student`.`NISN` AS `NISN`, `student`.`fullname` AS `student_name`, `criteria`.`name` AS `criteria_name`, `criteria`.`weight` AS `weight`, `reporter`.`homeroom_teacher` AS `reporter_teacher`, `homeroom`.`homeroom_teacher` AS `confirmation_teacher` FROM (((((select `tbl_reporting`.`id` AS `id`,`tbl_reporting`.`id_behavior` AS `id_behavior`,`tbl_reporting`.`type` AS `type`,`tbl_reporting`.`NISS` AS `NISS`,`tbl_reporting`.`id_reporter` AS `id_reporter`,`tbl_reporting`.`id_confirmation` AS `id_confirmation`,`tbl_reporting`.`date` AS `date` from `tbl_reporting` where `tbl_reporting`.`type` = 'violation') `report` join `tbl_student` `student` on(`report`.`NISS` = `student`.`NISS`)) join (select `tbl_criteria`.`id` AS `id`,`tbl_criteria`.`name` AS `name`,`tbl_criteria`.`type` AS `type`,`tbl_criteria`.`weight` AS `weight` from `tbl_criteria` where `tbl_criteria`.`type` = 'violation') `criteria` on(`report`.`id_behavior` = `criteria`.`id`)) join `tbl_teacher` `reporter` on(`report`.`id_reporter` = `reporter`.`NIP`)) join `tbl_teacher` `homeroom` on(`report`.`id_confirmation` = `homeroom`.`NIP`)) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_reportViolation`  AS SELECT `report`.`date` AS `date`, `student`.`NISS` AS `NISS`, `student`.`NISN` AS `NISN`, `student`.`fullname` AS `student_name`, `criteria`.`name` AS `criteria_name`, `criteria`.`weight` AS `weight`, `reporter`.`homeroom_teacher` AS `reporter_teacher`, `homeroom`.`homeroom_teacher` AS `confirmation_teacher` FROM (((((select `tbl_reporting`.`id` AS `id`,`tbl_reporting`.`id_behavior` AS `id_behavior`,`tbl_reporting`.`type` AS `type`,`tbl_reporting`.`NISS` AS `NISS`,`tbl_reporting`.`id_reporter` AS `id_reporter`,`tbl_reporting`.`id_confirmation` AS `id_confirmation`,`tbl_reporting`.`date` AS `date` from `tbl_reporting` where `tbl_reporting`.`type` = 'violation') `report` join `tbl_student` `student` on(`report`.`NISS` = `student`.`NISS`)) join (select `tbl_criteria`.`id` AS `id`,`tbl_criteria`.`name` AS `name`,`tbl_criteria`.`type` AS `type`,`tbl_criteria`.`weight` AS `weight` from `tbl_criteria` where `tbl_criteria`.`type` = 'violation') `criteria` on(`report`.`id_behavior` = `criteria`.`id`)) join `tbl_teacher` `reporter` on(`report`.`id_reporter` = `reporter`.`NIP`)) join `tbl_teacher` `homeroom` on(`report`.`id_confirmation` = `homeroom`.`NIP`)) ;
 
 --
 -- Indexes for dumped tables
