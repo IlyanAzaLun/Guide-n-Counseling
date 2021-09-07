@@ -23,6 +23,7 @@ class M_report
 			    , `criteria`.`name`
 			    , `report`.`type`
 			    , `report`.`NISS`
+			    , `report`.`message`
 			    , `student`.`fullname`
 			    , `student`.`class`
 			    , `teacher_reporter`.`homeroom_teacher` AS `reporter`
@@ -47,7 +48,7 @@ class M_report
 	public function select_report_date($NISS)
 	{
 		$this->db->query('
-			SELECT `date` FROM tbl_reporting WHERE NISS = :NISS GROUP BY date DESC');
+			SELECT `id`, `date` FROM tbl_reporting WHERE NISS = :NISS GROUP BY date DESC');
 		
 		$this->db->bind('NISS', $NISS);
 		$this->db->execute();
@@ -94,13 +95,14 @@ class M_report
 		for ($i=0; $i < sizeof($data[$type]); $i++) { 
 			for ($j=0; $j < sizeof($data['students']) ; $j++) { 
 				$this->db->query("
-					INSERT INTO tbl_reporting(`id`, `id_behavior`, `type`, `NISS`, `id_reporter`, `id_confirmation`, `date`)
-					VALUES(uuid(), :id_behavior, :type, :NISS, :id_reporter, :id_confirmation, :date);");
+					INSERT INTO tbl_reporting(`id`, `id_behavior`, `type`, `NISS`, `id_reporter`, `id_confirmation`, `message`,`date`)
+					VALUES(uuid(), :id_behavior, :type, :NISS, :id_reporter, :id_confirmation, :message, :date);");
 				$this->db->bind('id_behavior', $data[$type][$i]);
 				$this->db->bind('type', $data['type']);
 				$this->db->bind('NISS', (explode(',', $data['students'][$j])[0]));
 				$this->db->bind('id_reporter', $data['reporter']);
 				$this->db->bind('id_confirmation', $data['teacher-confirmation']);
+				$this->db->bind('message', $data['message']);
 				$this->db->bind('date', $data['date']);
 				$this->db->execute();
 		 

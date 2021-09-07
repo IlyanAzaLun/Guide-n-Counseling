@@ -21,28 +21,39 @@ class Report extends Controller
 	public function index()
 	{
 		$data['report'] = $this->model('M_report')->report();
-		$this->page['title'] = 'List rule of Dutiful';
+		$data['criteria'] = $this->model('M_criteria')->select_criteria('violation');
+	
+        foreach (($data['report']) as $key => $value) {
+        	$data['tmp'] = ($key == @sizeof($data['report'])-1) ? $value['Total'] : '0' ;
+        }
+	
+		$this->page['title'] = 'Report';
 		$this->view('components/_header');
-				//  datatabels		
+
 		$this->style('plugins/datatables-bs4/css/dataTables.bootstrap4.min');
 		$this->style('plugins/datatables-responsive/css/responsive.bootstrap4.min');
 		$this->style('plugins/datatables-buttons/css/buttons.bootstrap4.min');
 
 		$this->view('components/sidebar');
 		$this->view('components/content-header');
-		
+		$this->view('report/index', $data);
 		$this->view('components/content-footer');
-				//  datatabels
 
 		$this->script('plugins/datatables/jquery.dataTables.min');
 		$this->script('plugins/datatables-bs4/js/dataTables.bootstrap4.min');
 		$this->script('plugins/datatables-responsive/js/dataTables.responsive.min');
 		$this->script('plugins/datatables-responsive/js/responsive.bootstrap4.min');
+						//  summernote
+		// $this->script('plugins/summernote/summernote-bs4.min');
+		
 		$this->script('plugins/datatables-buttons/js/dataTables.buttons.min');
 		$this->script('plugins/datatables-buttons/js/buttons.bootstrap4.min');
-
-		$this->script('dist/js/pages/criteria/index', 'module');
+		
+		$this->script('dist/js/pages/student/index', 'module');
 		$this->view('components/_footer');
+		// echo "<pre>";
+		// var_dump($data['report']);
+		// echo "<pre>";
 	}
 
 	public function tolerance()
@@ -74,7 +85,7 @@ class Report extends Controller
 		$data['students'] = $this->model('M_students')->students();
 		$data['violation'] = $this->model('M_criteria')->select_criteria('violation');
 		$data['teacher'] = $this->model('M_teacher')->read($_SESSION['user']['NIP']);
-		$this->page['title'] = 'Violation to students';
+		$this->page['title'] = 'Behavior Report';
 		$this->view('components/_header');
 
 		$this->style('plugins/select2/css/select2.min');
@@ -98,7 +109,7 @@ class Report extends Controller
 		$data['students'] = $this->model('M_students')->students();
 		$data['dutiful'] = $this->model('M_criteria')->select_criteria('dutiful');
 		$data['teacher'] = $this->model('M_teacher')->read($_SESSION['user']['NIP']);
-		$this->page['title'] = 'Violation to students';
+		$this->page['title'] = 'Behavior Report';
 		$this->view('components/_header');
 
 		$this->style('plugins/select2/css/select2.min');

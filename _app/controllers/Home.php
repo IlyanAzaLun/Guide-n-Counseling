@@ -37,4 +37,28 @@ class Home extends Controller
 
 		$this->view('components/_footer');
 	}
+
+	public function stats()
+	{
+		$data[] = array(
+			'violation' => $this->data('violation'),
+			'dutiful' => $this->data('dutiful') 
+		);
+		echo json_encode($data);
+	}
+
+	private function data($type){
+		$tmp = array();
+		foreach ($this->request->stats_class($type) as $key) {
+			if (isset($key['class'])) {
+				$tmp[] = array(
+					'class' => $key['class'],
+					'type'  => $key['type'],
+					'total' => $key['total'],
+					'color' => '#'.rand(100000,999999)
+				);
+			}
+		}
+		return $tmp;
+	}
 }

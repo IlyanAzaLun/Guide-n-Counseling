@@ -7,7 +7,7 @@
         <!-- SELECT2 EXAMPLE -->
         <div class="card card-default">
           <div class="card-header bg-danger">
-            <h3 class="card-title">Add data student Violation</h3>
+            <h3 class="card-title">Add data students with problems</h3>
 
             <div class="card-tools">
               <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
@@ -22,12 +22,12 @@
 
                 <div class="col-md-12">
                   <div class="form-group">
-                    <label>Violation</label>
+                    <label>Infrigment</label>
                     <input type="hidden" name="type" value="violation">
                     <input type="hidden" name="reporter" value="<?=$_SESSION['user']['NIP']?>">
                     <div class="select2-danger">
 
-                      <select class="form-control select2" multiple="multiple" data-placeholder="Select a violation to violation" data-dropdown-css-class="select2-danger" name="violation[]" required>
+                      <select class="form-control select2" multiple="multiple" data-placeholder="Select infrigment please!" data-dropdown-css-class="select2-danger" name="violation[]" required>
                         <?php foreach ($data['violation'] as $key => $value): ?>
                           <option value="<?=$value['id']?>"><?=$value['name']?></option>
                         <?php endforeach ?>
@@ -68,6 +68,14 @@
                   <div class="form-group">
                     <label>Date:</label>
                       <input type="date" name="date" class="form-control" required>
+                  </div>
+                </div>
+
+                <div class="col col-mb-12">
+                  <div class="form-group">
+                    
+                    <label for="">Messages</label>
+                    <textarea class="form-control" name="message" id="" cols="30" rows="10"></textarea>
                   </div>
                 </div>
 

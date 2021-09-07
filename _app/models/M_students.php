@@ -26,7 +26,7 @@ class M_students
 
 	public function select_studentBy_NISN($NISS)
 	{
-		$sql = 'SELECT `NISN`, `NISS`, `fullname`, `gender`, `class` FROM `tbl_student` WHERE `NISS` = :NISS ';
+		$sql = 'SELECT `NISN`, `NISS`, `fullname`, `gender`, `class`, `photo`, `status` FROM `tbl_student` WHERE `NISS` = :NISS ';
 		$sql .= ( $_SESSION['user']['class'] !== "staff") ? 'AND `class` =\''.$_SESSION['user']['class'].'\';' : ';';
 		$this->db->query($sql);
 		$this->db->bind('NISS',$NISS);
@@ -80,6 +80,19 @@ class M_students
 			$this->db->execute();
 
 		}
+		return $this->db->rowCount();
+	}
+
+	public function update($data)
+	{
+		$this->db->query('UPDATE `tbl_student` SET `NISN` = :NISN, `fullname` = :name, `class` = :class, `photo` = :url, `status` = :status WHERE `NISS` = :NISS');
+		$this->db->bind('NISN', $data['NISN']);
+		$this->db->bind('NISS', $data['NISS']);
+		$this->db->bind('name', $data['name']);
+		$this->db->bind('class', $data['class']);
+		$this->db->bind('url', $data['url']);
+		$this->db->bind('status', (int)$data['status']);
+		$this->db->execute();
 		return $this->db->rowCount();
 	}
 }

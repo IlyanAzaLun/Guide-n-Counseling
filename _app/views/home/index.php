@@ -30,7 +30,7 @@ function countPersentase($type, $data){
               <span class="info-box-icon bg-success elevation-1"><i class="fas fa-award"></i></span>
 
               <div class="info-box-content">
-                <span class="info-box-text">Dutiful</span>
+                <span class="info-box-text">Positive</span>
                 <span class="info-box-number"><?=@countPersentase('total_dutiful', $data['type'])?><small>%</small></span>
               </div>
               <!-- /.info-box-content -->
@@ -61,7 +61,7 @@ function countPersentase($type, $data){
               <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-ban"></i></span>
 
               <div class="info-box-content">
-                <span class="info-box-text">Violation</span>
+                <span class="info-box-text">Negative</span>
                 <span class="info-box-number"><?=@countPersentase('total_violation', $data['type'])?><small>%</small></span>
               </div>
               <!-- /.info-box-content -->

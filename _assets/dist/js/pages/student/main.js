@@ -12,6 +12,17 @@ const main = () => {
 		"order": [[ 2, "asc" ]]
 	});
 
+	$("input#status").on("click", function(){
+		switch(this.value){
+			case "0":
+				this.value = "1";
+				break;
+			case "1":
+				this.value = "0";
+				break;
+		}
+	});
+
 }
 
 export default main;

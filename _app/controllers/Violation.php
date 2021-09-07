@@ -22,7 +22,7 @@ class Violation extends Controller
 	public function index()
 	{
 		$data['violation'] = $this->model('M_criteria')->select_criteria('violation');
-		$this->page['title'] = 'List rule of Violation';
+		$this->page['title'] = 'List of Rules';
 		$this->view('components/_header');
 				//  datatabels		
 		$this->style('plugins/datatables-bs4/css/dataTables.bootstrap4.min');

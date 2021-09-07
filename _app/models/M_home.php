@@ -62,4 +62,31 @@ class M_home{
 		GROUP BY tbl_student.class
 		**/
 	}
+
+	public function stats_class($type)
+	{
+		$this->db->query("
+			SELECT 	CAST(fromRoman(class)AS UNSIGNED)as tmp1,
+					CAST(ExtractNumber(class)AS UNSIGNED)as tmp2
+					, class
+			        , type
+			        , IFNULL(SUM(weight),0) AS total 
+			FROM `v_reportStatistic`
+			WHERE type = :type
+			GROUP BY class
+
+			-- UNION
+			-- SELECT 	CAST(fromRoman(class)AS UNSIGNED)as tmp1,
+			-- 		CAST(ExtractNumber(class)AS UNSIGNED)as tmp2
+			-- 		, class
+			--         , :type
+			--         , 0 
+			-- FROM `v_reportStatistic`
+			-- WHERE weight = 0  
+			ORDER BY `tmp1` ASC, `tmp2`;
+			");
+		$this->db->bind('type', $type);
+		$this->db->execute();
+		return $this->db->resultSet();
+	}
 }

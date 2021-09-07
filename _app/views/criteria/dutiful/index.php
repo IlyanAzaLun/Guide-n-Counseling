@@ -9,7 +9,7 @@
         <!-- Default box -->
         <div class="card <?=(!empty($data['dutiful'])?'collapse':'')?>" id="field_rules">
           <div class="card-header bg-primary">
-            <h3 class="card-title"><?=(!empty($data['dutiful'])?'Update':'Create')?> rule of dutiful</h3>
+            <h3 class="card-title"><?=(!empty($data['dutiful'])?'Update':'Create')?> Values of Admirable</h3>
             <div class="card-tools">
               <button type="button" class="btn btn-tool" data-toggle="collapse" data-target="#form-field" aria-expanded="true" aria-controls="form-field"><i class="fas fa-minus"></i></button>
               <button type="button" class="btn btn-tool collapsed" data-toggle="collapse" data-target="#field_rules" aria-expanded="false" aria-controls="field_rules"><i class="fas fa-times"></i></button>
@@ -44,7 +44,7 @@
 
         <div class="card <?=(empty($data['dutiful'])?'collapse':'')?>">
           <div class="card-header bg-success">
-            <h3 class="card-title">Table rule of dutiful</h3>
+            <h3 class="card-title">Table of Admirable</h3>
             <div class="card-tools">
               <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
             </div>

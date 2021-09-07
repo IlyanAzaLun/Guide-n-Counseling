@@ -7,7 +7,7 @@
         <!-- SELECT2 EXAMPLE -->
         <div class="card card-default">
           <div class="card-header bg-success">
-            <h3 class="card-title">Add data student Dutiful</h3>
+            <h3 class="card-title">Add student commandable action data</h3>
 
             <div class="card-tools">
               <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
@@ -22,12 +22,12 @@
 
                 <div class="col-md-12">
                   <div class="form-group">
-                    <label>Dutiful</label>
+                    <label>Value</label>
                     <input type="hidden" name="type" value="dutiful">
                     <input type="hidden" name="reporter" value="<?=$_SESSION['user']['NIP']?>">
                     <div class="select2-success">
 
-                      <select class="form-control select2" multiple="multiple" data-placeholder="Select a dutiful to dutiful" data-dropdown-css-class="select2-success" name="dutiful[]" required>
+                      <select class="form-control select2" multiple="multiple" data-placeholder="Select a value of admirable" data-dropdown-css-class="select2-success" name="dutiful[]" required>
                         <?php foreach ($data['dutiful'] as $key => $value): ?>
                           <option value="<?=$value['id']?>"><?=$value['name']?></option>
                         <?php endforeach ?>
@@ -68,6 +68,14 @@
                   <div class="form-group">
                     <label>Date:</label>
                       <input type="date" name="date" class="form-control" required>
+                  </div>
+                </div>
+
+                <div class="col col-mb-12">
+                  <div class="form-group">
+                    
+                    <label for="">Messages</label>
+                    <textarea class="form-control" name="message" id="" cols="30" rows="10"></textarea>
                   </div>
                 </div>
 

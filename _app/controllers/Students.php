@@ -156,4 +156,38 @@ class Students extends Controller
 			$this->view('components/_footer');
 		}
 	}
+
+	public function update()
+	{
+		var_dump($_POST);
+
+		if($_FILES){
+			$file = $_FILES['image']['name'];
+			$ekstensi = explode(".", $file);
+			if(end($ekstensi) == 'png' || end($ekstensi) == 'jpeg' || end($ekstensi) == 'jpg'){
+				$file_name = "student-".round(microtime(true)).".".end($ekstensi);
+				$sumber = $_FILES['image']['tmp_name'];
+				$target_dir = getcwd()."/_assets/photos/";
+				$target_file = $target_dir.$file_name;
+				move_uploaded_file($sumber, $target_file);
+
+				$_POST['url'] = "/_assets/photos/".$file_name;
+
+				if($this->model('M_students')->update($_POST) > 0){
+					unlink(getcwd().$_POST['tmp']);
+					Flasher::setFlash('success', ',Success !', ',to update your students');
+					header('Location: '.$_SERVER['HTTP_REFERER']);
+					exit;
+				}else{
+					Flasher::setFlash('danger', ',Failed !', ',check again your data if updateed don\'t worry');
+					header('Location: '.$_SERVER['HTTP_REFERER']);
+					exit;
+				}
+			}else{
+				Flasher::setFlash('warning', ',Error !', ',image must .png, check again your type image!');
+				header('Location: '.$_SERVER['HTTP_REFERER']);
+				return false;
+			}
+		}
+	}
 }

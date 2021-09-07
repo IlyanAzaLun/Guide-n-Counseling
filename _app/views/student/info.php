@@ -9,22 +9,22 @@ function countPersentase($type, $data){
 
   <div class="container-fluid">
     <div class="row">
-      <div class="col-3">
+      <div class="col-3 col-lg-3 col-sm-5">
 
         <!-- Profile Image -->
         <div class="card card-primary card-outline">
           <div class="card-body box-profile">
             <div class="text-center">
               <img class="profile-user-img img-fluid img-circle"
-              src="<?=BASEURL?>/_assets/dist/img/default-150x150.png"
-              alt="User profile picture">
+              src="<?=($data['student']['photo']!='')?BASEURL.'/'.$data['student']['photo']:BASEURL.'/_assets/dist/img/default-150x150.png'?>"
+              style="width: 100px; height: 100px" alt="User profile picture">
             </div>
 
             <h3 class="profile-username text-center"><?=$data['student']['fullname']?> <small>(<?=$data['student']['gender']?>)</small></h3>
 
             <p class="text-muted text-center"><small><b>NISN</b></small>/<small>NISS</small> <b><?=$data['student']['NISN']?></b>/<?=$data['student']['NISS']?></p>
 
-            <h4 class="profile-username text-center">Class: <b><?=$data['student']['class']?></b></h4>
+            <h4 class="profile-username text-center">Class: <b><?=$data['student']['class']?></b><?=($data['student']['status']==="1")?' Active':' Inactive'?></h4>
             <ul class="list-group list-group-unbordered mb-3">
               <li class="list-group-item">
                 <b>Tolerance</b> <a class="float-right"><?=($data['type'])?$data['type']['total_tolerance']:'Null'?></a>
@@ -43,7 +43,7 @@ function countPersentase($type, $data){
 
       </div>
       <!-- /.col -->
-      <div class="col-md-9">
+      <div class="col-9 col-lg-9 col-sm-7">
         <div class="card">
           <div class="card-header p-2">
             <ul class="nav nav-pills">
@@ -131,12 +131,21 @@ function countPersentase($type, $data){
                           <small>report by : <?=$value['reporter']?></small>
                         </div>
                         <?php endif ?>
+                       
+                        <!-- message -->
+                        <?php if ($values['id']==$value['id']): ?>
+                        <div class="timeline-body">
+                          <?=$value['message']?>
+                        </div>
+                        <?php endif ?>
+                        <!-- ./message -->
 
                         <?php if ($value['type']=='violation'): ?>
-                        <div class="timeline-footer text-right">
+                        <div class="timeline-footer text-right bg-info">
                           <span><small><i class="fa fa-check fa-sm"></i> confirmation by: <?=$value['confirmation']?></small></span>
                         </div>
                         <?php endif ?>
+                        
 
                       </div>
                     </div>
@@ -165,22 +174,55 @@ function countPersentase($type, $data){
               <!-- /.tab-pane -->
 
               <div class="tab-pane" id="settings">
-                <form class="form-horizontal">
+                <form class="form-horizontal" method="POST" action="<?=BASEURL?>/students/update" enctype="multipart/form-data">
                   <div class="form-group row">
-                    <label for="inputName" class="col-sm-2 col-form-label">Name</label>
-                    <div class="col-sm-10">
-                      <input type="email" class="form-control" id="inputName" placeholder="Name">
+                    <label for="inputName" class="col-lg-2 col-form-label">Name</label>
+                    <div class="col-10 col-lg-10 col-sm">
+                      <input type="text" class="form-control" id="inputName" name="name" placeholder="Name" value="<?=$data['student']['fullname']?>" required>
                     </div>
                   </div>
                   <div class="form-group row">
-                    <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
-                    <div class="col-sm-10">
-                      <input type="email" class="form-control" id="inputEmail" placeholder="Email">
+                    <label for="inputNISS" class="col-lg-2 col-form-label">NISN/ Class</label>
+                    <div class="col-10 col-lg-5 col-sm-8">
+                      <input type="text" class="form-control" id="inputNISN" name="NISN" placeholder="NISN" value="<?=$data['student']['NISN']?>" required>
+                    </div>
+
+                    <div class="col-10 col-lg-5 col-sm">
+                      <input type="text" class="form-control" id="inputClass" name="class" placeholder="Class" value="<?=$data['student']['class']?>" required>
+                    </div>
+
+                    <div class="col-10 col-lg-5 col-sm">
+                      <input type="hidden" class="form-control" id="inputNISS" name="NISS" placeholder="NISS" value="<?=$data['student']['NISS']?>">
                     </div>
                   </div>
+
+                  <div class="form-group row">
+                    <label for="inputPhoto" class="col-lg-2 col-form-label">Photo</label>
+                    <div class="input-group col-10 col-lg-10 col-sm-10">
+                      <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="inputPhoto" name="image" required>
+                        <label class="custom-file-label" for="inputPhoto">Choose file</label>
+                      </div>
+                      <div class="input-group-append">
+                        <span class="input-group-text" id="">Upload</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!--  -->
+                  <div class="form-group row">
+                    <label for="status" class="col-lg-10 col-form-label">Status</label>
+                    <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success mt-2">
+                      <input type="checkbox" class="custom-control-input" id="status" name="status" <?=($data['student']['status']==="1")?'checked value="1"':'value="0"'?>>
+                      <label class="custom-control-label" for="status"><?=($data['student']['status']==="1")?'Active':'Inactive'?> </label>
+                    </div>
+                  </div>
+                  <input type="hidden" name="tmp" value="<?=$data['student']['photo']?>">
+                  <!--  -->
+
                   <div class="form-group row">
                     <div class="offset-sm-2 col-sm-10">
-                      <button type="submit" class="btn btn-danger">Submit</button>
+                      <button type="Submitmit" class="btn btn-danger">Submit</button>
                     </div>
                   </div>
                 </form>

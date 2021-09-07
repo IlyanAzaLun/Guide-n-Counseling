@@ -96,7 +96,7 @@
                 <li class="nav-item">
                   <a href="<?=BASEURL?>/report/violation" class="nav-link">
                     <i class="nav-icon fas fa-ban"></i>
-                    Report Violation
+                    Report Negative
                   </a>
                 </li>
               </ul>
@@ -105,7 +105,16 @@
                 <li class="nav-item">
                   <a href="<?=BASEURL?>/report/dutiful" class="nav-link">
                     <i class="nav-icon fas fa-award"></i>
-                    Report Dutiful
+                    Report Positive
+                  </a>
+                </li>
+              </ul>
+
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="<?=BASEURL?>/report" class="nav-link">
+                    <i class="nav-icon fas fa-clipboard-list"></i>
+                    Reported
                   </a>
                 </li>
               </ul>
@@ -122,53 +131,63 @@
              </li>
              <li class="nav-item has-treeview">
               <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-heart-broken"></i>
+                <i class="nav-icon fas fa-thumbtack"></i>
                 <p>
-                  Offense
+                  Rules
                   <i class="fas fa-angle-left right"></i>
                 </p>
               </a>
+             
+              <ul class="nav nav-treeview">
+                <!--  -->
+                <li class="nav-item has-treeview">
+                  <a href="#" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>
+                      Negative
+                      <i class="right fas fa-angle-left"></i>
+                    </p>
+                  </a>
+                  <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                      <a href="<?=BASEURL?>/violation" class="nav-link">
+                        <i class="far fa-dot-circle nav-icon"></i>
+                        <p>Rules</p>
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a href="#" class="nav-link">
+                        <i class="far fa-dot-circle nav-icon"></i>
+                        <p>Penalty</p>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
 
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a href="<?=BASEURL?>/violation" class="nav-link">
-                    <i class="fas fa-ban nav-icon"></i>
-                    <p>Violation</p>
+                <li class="nav-item has-treeview">
+                  <a href="#" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>
+                      Positive
+                      <i class="right fas fa-angle-left"></i>
+                    </p>
                   </a>
+                  <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                      <a href="<?=BASEURL?>/dutiful" class="nav-link">
+                        <i class="far fa-dot-circle nav-icon"></i>
+                        <p>Rules</p>
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a href="#" class="nav-link">
+                        <i class="far fa-dot-circle nav-icon"></i>
+                        <p>Reward</p>
+                      </a>
+                    </li>
+                  </ul>
                 </li>
-              </ul>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a href="<?=BASEURL?>/penalty" class="nav-link">
-                    <i class="fas fa-gavel nav-icon"></i>
-                    <p>Penalty</p>
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li class="nav-item has-treeview">
-              <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-trophy"></i>
-                <p>
-                  Obedient
-                  <i class="fas fa-angle-left right"></i>
-                </p>
-              </a>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a href="<?=BASEURL?>/dutiful" class="nav-link">
-                    <i class="fas fa-award nav-icon"></i>
-                    <p>Dutiful</p>
-                  </a>
-                </li>
-              </ul>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a href="<?=BASEURL?>/reward" class="nav-link">
-                    <i class="fa fa-medal nav-icon"></i>
-                    <p>Reward</p>
-                  </a>
-                </li>
+                <!--  -->
               </ul>
             </li>
             <li class="nav-item">
@@ -176,7 +195,7 @@
                  <i class="fa fa-balance-scale nav-icon"></i>
                  <p>Action</p>
                </a>
-             </li>
+            </li>
           <?php endif ?>
 
           <li class="nav-header">INFORMATION</li>
