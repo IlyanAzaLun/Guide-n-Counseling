@@ -2,7 +2,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="modal-student">Add new student</h5>
+        <h5 class="modal-title" id="modal-student">Tambah siswa baru</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -33,16 +33,16 @@
             <div class="col-12">
               <div class="input-group">
                 <div class="custom-file">
-                  <input type="text" class="form-control" name="fullname" aria-label="Text input with segmented dropdown button" required placeholder="Full Name">
+                  <input type="text" class="form-control" name="fullname" aria-label="Text input with segmented dropdown button" required placeholder="Nama lengkap">
                 </div>
                 <div class="input-group-prepend">
-                  <select class="custom-select" name="gender" required>
-                    <option selected disabled>Gender</option>
-                    <option value="L">Male</option>
-                    <option value="P">Fmale</option>
+                  <select class="custom-select ml-2" name="gender" required>
+                    <option selected disabled>Jenis Kelamin</option>
+                    <option value="L">Laki-laki</option>
+                    <option value="P">Perempuan</option>
                   </select>
                   <?php if ($_SESSION['user']['class'] === "staff"): ?>
-                  <select class="custom-select" name="class" required>
+                  <select class="custom-select ml-2" name="class" required>
                     <option selected disabled>Class Student</option>
                     <?php foreach ($data['class'] as $key => $name): ?>
                     <option value="<?=$name['class']?>"><?=$name['class']?></option>
@@ -57,8 +57,8 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary">Save changes</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+          <button type="submit" class="btn btn-primary">Simpan</button>
         </div>
       </form>
     </div>
@@ -71,7 +71,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="modal-student">Import data student</h5>
+        <h5 class="modal-title" id="modal-student">Import data siswa</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -103,8 +103,8 @@
         <?php else: ?>
         <a href="<?=BASEURL?>/_assets/files/students-class.xls" class="btn btn-success mr-auto">Download Format Excel</a>
         <?php endif ?>
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary">Save changes</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+          <button type="submit" class="btn btn-primary">Simpan</button>
         </div>
       </form>
     </div>

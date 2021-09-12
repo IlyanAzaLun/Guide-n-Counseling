@@ -2,7 +2,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="modal-teacher">Add new teacher</h5>
+        <h5 class="modal-title" id="modal-teacher">Tambah baru guru wali</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -23,12 +23,12 @@
             <div class="col-12">
 
               <div class="form-group">
-                <label for="name and class">Homeroom teacher and Class</label>
+                <label for="name and class">Nama guru, dan Kelas</label>
                 <div class="input-group">
                   <div class="custom-file">
                     <input type="text" class="form-control" name="homeroom_teacher" aria-label="Text input with segmented dropdown button" required placeholder="Full Name">
                   </div>
-                  <div class="input-group-prepend">
+                  <div class="input-group-prepend ml-2">
                     <input type="text" class="form-control" name="class" aria-label="Text input with segmented dropdown button" required placeholder="Class Name">
                   </div>
                 </div>
@@ -43,7 +43,7 @@
                   <div class="custom-file">
                     <input type="password" class="form-control" name="password" id="password" aria-label="Text input with segmented dropdown button" required placeholder="Password">
                   </div>
-                  <div class="input-group-prepend">
+                  <div class="input-group-prepend ml-2">
                     <input type="password" class="form-control" name="re_password" aria-label="Text input with segmented dropdown button" required placeholder="re type Password">
                   </div>
                 </div>
@@ -52,8 +52,8 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary">Save changes</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+          <button type="submit" class="btn btn-primary">Simpan</button>
         </div>
       </form>
     </div>
@@ -66,7 +66,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="modal-teacher">Import data teacher</h5>
+        <h5 class="modal-title" id="modal-teacher">Import data guru</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -94,8 +94,8 @@
           <div class="modal-footer">
 
             <a href="<?=BASEURL?>/_assets/files/teacher-example.xls" class="btn btn-success mr-auto">Download Format Excel</a>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary">Save changes</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+            <button type="submit" class="btn btn-primary">Simpan</button>
           </div>
         </form>
       </div>

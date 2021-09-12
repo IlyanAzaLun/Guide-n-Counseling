@@ -18,7 +18,7 @@ SET @stmt2 =CONCAT(
         NISS,
         student_name,',
         @sums,
-        ',SUM(weight) AS Total 
+        ',SUM(weight) AS Total
     FROM ',tbl_name,' 
     GROUP BY student_name 
     WITH ROLLUP');

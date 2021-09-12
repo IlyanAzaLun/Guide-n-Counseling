@@ -24,16 +24,16 @@ function countPersentase($type, $data){
 
             <p class="text-muted text-center"><small><b>NISN</b></small>/<small>NISS</small> <b><?=$data['student']['NISN']?></b>/<?=$data['student']['NISS']?></p>
 
-            <h4 class="profile-username text-center">Class: <b><?=$data['student']['class']?></b><?=($data['student']['status']==="1")?' Active':' Inactive'?></h4>
+            <h4 class="profile-username text-center">Kelas: <b><?=$data['student']['class']?></b><?=($data['student']['status']==="1")?' Aktif':' Pindah'?></h4>
             <ul class="list-group list-group-unbordered mb-3">
               <li class="list-group-item">
-                <b>Tolerance</b> <a class="float-right"><?=($data['type'])?$data['type']['total_tolerance']:'Null'?></a>
+                <b>Toleransi</b> <a class="float-right"><?=($data['type'])?$data['type']['total_tolerance']:'Null'?></a>
               </li>
               <li class="list-group-item">
-                <b>Violation</b> <a class="float-right"><?=@countPersentase('total_violation', @$data['type'])?><small>%</small></a>
+                <b>Pelanggaran</b> <a class="float-right"><?=@countPersentase('total_violation', @$data['type'])?><small>%</small></a>
               </li>
               <li class="list-group-item">
-                <b>Dutiful</b> <a class="float-right"><?=@countPersentase('total_dutiful', @$data['type'])?><small>%</small></a>
+                <b>Kepatuhan</b> <a class="float-right"><?=@countPersentase('total_dutiful', @$data['type'])?><small>%</small></a>
               </li>
             </ul>
           </div>
@@ -176,13 +176,13 @@ function countPersentase($type, $data){
               <div class="tab-pane" id="settings">
                 <form class="form-horizontal" method="POST" action="<?=BASEURL?>/students/update" enctype="multipart/form-data">
                   <div class="form-group row">
-                    <label for="inputName" class="col-lg-2 col-form-label">Name</label>
+                    <label for="inputName" class="col-lg-2 col-form-label">Nama</label>
                     <div class="col-10 col-lg-10 col-sm">
                       <input type="text" class="form-control" id="inputName" name="name" placeholder="Name" value="<?=$data['student']['fullname']?>" required>
                     </div>
                   </div>
                   <div class="form-group row">
-                    <label for="inputNISS" class="col-lg-2 col-form-label">NISN/ Class</label>
+                    <label for="inputNISS" class="col-lg-2 col-form-label">NISN/ Kelas</label>
                     <div class="col-10 col-lg-5 col-sm-8">
                       <input type="text" class="form-control" id="inputNISN" name="NISN" placeholder="NISN" value="<?=$data['student']['NISN']?>" required>
                     </div>
@@ -197,7 +197,7 @@ function countPersentase($type, $data){
                   </div>
 
                   <div class="form-group row">
-                    <label for="inputPhoto" class="col-lg-2 col-form-label">Photo</label>
+                    <label for="inputPhoto" class="col-lg-2 col-form-label">Foto</label>
                     <div class="input-group col-10 col-lg-10 col-sm-10">
                       <div class="custom-file">
                         <input type="file" class="custom-file-input" id="inputPhoto" name="image" required>
@@ -211,10 +211,40 @@ function countPersentase($type, $data){
 
                   <!--  -->
                   <div class="form-group row">
-                    <label for="status" class="col-lg-10 col-form-label">Status</label>
-                    <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success mt-2">
+                    <label class="col-lg-2 col-form-label">Status</label>
+                    <!-- RADIO -->
+                    <div class="form-group clearfix col-lg-10 mt-2">
+                      <div class="icheck-primary d-inline">
+                        <input type="radio" id="radioPrimary1" name="r1" checked="">
+                        <label for="radioPrimary1">
+                          Belum
+                        </label>
+                      </div>
+                      <div class="icheck-primary d-inline">
+                        <input type="radio" id="radioPrimary2" name="r1">
+                        <label for="radioPrimary2">
+                          Segera
+                        </label>
+                      </div>
+                      <div class="icheck-primary d-inline">
+                        <input type="radio" id="radioPrimary3" name="r1">
+                        <label for="radioPrimary3">
+                          Prosess
+                        </label>
+                      </div>
+                      <div class="icheck-primary d-inline">
+                        <input type="radio" id="radioPrimary4" name="r1">
+                        <label for="radioPrimary4">
+                          Sudah
+                        </label>
+                      </div>
+                      <label class="float-right">Bimbingan</label>
+                    </div>
+                    <!-- RADIO -->
+                    <div class="col-lg-2"></div>
+                    <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success ml-2">
                       <input type="checkbox" class="custom-control-input" id="status" name="status" <?=($data['student']['status']==="1")?'checked value="1"':'value="0"'?>>
-                      <label class="custom-control-label" for="status"><?=($data['student']['status']==="1")?'Active':'Inactive'?> </label>
+                      <label class="custom-control-label" for="status"><?=($data['student']['status']==="1")?'Aktif':'Pindah'?> </label>
                     </div>
                   </div>
                   <input type="hidden" name="tmp" value="<?=$data['student']['photo']?>">

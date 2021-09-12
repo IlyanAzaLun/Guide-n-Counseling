@@ -12,7 +12,7 @@
   <!-- /.login-logo -->
   <div class="card">
     <div class="card-body login-card-body">
-      <p class="login-box-msg">Sign in to start your session</p>
+      <p class="login-box-msg">Masuk untuk memulai sesi anda!</p>
 
       <form action="<?=BASEURL?>/auth/login" method="post" id="login">
         <div class="input-group mb-3">
@@ -43,14 +43,14 @@
       </form>
 
       <div class="social-auth-links text-center mb-3">
-        <p>- OR -</p>
-        <a href="<?=HOSTURL?>" class="btn btn-block btn-primary">
+        <!-- <p>- OR -</p> -->
+        <!-- <a href="<?=BASEURL?>" class="btn btn-block btn-primary">
           <i class="fa fa-arrow-left mr-2"></i> Back to Site
-        </a>
+        </a> -->
       </div>
 
       <p class="mb-0">
-        <a href="<?=BASEURL?>/auth/register" class="text-center">Register a new membership</a>
+        <a href="<?=BASEURL?>/auth/register" class="text-center">Daftar untuk keanggotaan baru</a>
       </p>
     </div>
     <!-- /.login-card-body -->

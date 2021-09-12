@@ -26,7 +26,7 @@ class M_students
 
 	public function select_studentBy_NISN($NISS)
 	{
-		$sql = 'SELECT `NISN`, `NISS`, `fullname`, `gender`, `class`, `photo`, `status` FROM `tbl_student` WHERE `NISS` = :NISS ';
+		$sql = 'SELECT `NISN`, `NISS`, `fullname`, `gender`, `class`, `photo`, `status`, `counseling` FROM `tbl_student` WHERE `NISS` = :NISS ';
 		$sql .= ( $_SESSION['user']['class'] !== "staff") ? 'AND `class` =\''.$_SESSION['user']['class'].'\';' : ';';
 		$this->db->query($sql);
 		$this->db->bind('NISS',$NISS);
@@ -36,10 +36,24 @@ class M_students
 	
 	public function render($class)
 	{
-		$sql = 'SELECT `NISN`, `NISS`, `fullname`, `gender`,  tbl_student.`class`, `teacher`.`homeroom_teacher` FROM `tbl_student`
-				JOIN `tbl_teacher` `teacher`
-				ON tbl_student.`class` = teacher.`class`';
-		$sql .= ($class !== "YWxs") ? ' WHERE tbl_student.`class` = :class;' : ';';
+		$sql = 'SELECT 
+				    student.`NISN`, 
+				    student.`NISS`,
+				    student.fullname, 
+				    student.`gender`,  
+				    student.`class`, 
+				    student.`status`, 
+				    student.`counseling`, 
+					teacher.`homeroom_teacher`,
+				    max(report.date) as date
+				FROM tbl_student student 
+				LEFT JOIN tbl_reporting report 
+				ON student.NISS = report.NISS
+				JOIN tbl_teacher teacher
+				ON student.class = teacher.class';
+		$sql .= ($class !== "YWxs") ? ' WHERE tbl_student.`class` = :class 
+				GROUP BY student.NISS;' : '
+				GROUP BY student.NISS;';
 		$this->db->query($sql);
 		if ($class !== "YWxs") {
 			$this->db->bind('class', base64_decode($class));

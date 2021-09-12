@@ -61,7 +61,7 @@
             <li class="nav-item">
               <a href="<?=BASEURL?>/students/<?=base64_encode('all')?>" class="nav-link">
                 <i class="nav-icon fas fa-users"></i>
-                All Student
+                Semua siswa
               </a>
             </li>
             
@@ -69,7 +69,7 @@
               <li class="nav-item">
                 <a href="<?=BASEURL?>/students/<?=base64_encode($_SESSION['user']['class'])?>" class="nav-link">
                   <i class="nav-icon fas fa-users"></i>
-                  My Student
+                  Siswaku
                 </a>
               </li>
 
@@ -79,7 +79,7 @@
               <a href="#" class="nav-link">
                 <i class="nav-icon fa fa-clipboard-list"></i>
                 <p>
-                  Report
+                  Laporan
                   <i class="fas fa-angle-left right"></i>
                 </p>
               </a>
@@ -87,7 +87,7 @@
                 <li class="nav-item">
                   <a href="<?=BASEURL?>/report/tolerance" class="nav-link">
                     <i class="nav-icon fa fa-exclamation-triangle"></i>
-                    Tolerance
+                    Toleransi
                   </a>
                 </li>
               </ul>
@@ -96,7 +96,7 @@
                 <li class="nav-item">
                   <a href="<?=BASEURL?>/report/violation" class="nav-link">
                     <i class="nav-icon fas fa-ban"></i>
-                    Report Negative
+                    Buat laporan pelanggaran
                   </a>
                 </li>
               </ul>
@@ -105,7 +105,7 @@
                 <li class="nav-item">
                   <a href="<?=BASEURL?>/report/dutiful" class="nav-link">
                     <i class="nav-icon fas fa-award"></i>
-                    Report Positive
+                    Buat laporan nilai terpuji
                   </a>
                 </li>
               </ul>
@@ -114,7 +114,7 @@
                 <li class="nav-item">
                   <a href="<?=BASEURL?>/report" class="nav-link">
                     <i class="nav-icon fas fa-clipboard-list"></i>
-                    Reported
+                    Terlaporkan
                   </a>
                 </li>
               </ul>
@@ -122,18 +122,18 @@
 
             <?php if ($_SESSION['user']['class'] == "staff" ): ?>
 
-              <li class="nav-header">Configuration</li>
+              <li class="nav-header">Konfigurasi</li>
               <li class="nav-item">
                 <a href="<?=BASEURL?>/teacher" class="nav-link">
                  <i class="fa fa-user-graduate nav-icon"></i>
-                 <p>Teacher</p>
+                 <p>Guru</p>
                </a>
              </li>
              <li class="nav-item has-treeview">
               <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-thumbtack"></i>
                 <p>
-                  Rules
+                  Aturan
                   <i class="fas fa-angle-left right"></i>
                 </p>
               </a>
@@ -144,7 +144,7 @@
                   <a href="#" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>
-                      Negative
+                      Pelanggaran
                       <i class="right fas fa-angle-left"></i>
                     </p>
                   </a>
@@ -152,13 +152,13 @@
                     <li class="nav-item">
                       <a href="<?=BASEURL?>/violation" class="nav-link">
                         <i class="far fa-dot-circle nav-icon"></i>
-                        <p>Rules</p>
+                        <p>Aturan</p>
                       </a>
                     </li>
                     <li class="nav-item">
                       <a href="#" class="nav-link">
                         <i class="far fa-dot-circle nav-icon"></i>
-                        <p>Penalty</p>
+                        <p>Hukuman</p>
                       </a>
                     </li>
                   </ul>
@@ -168,7 +168,7 @@
                   <a href="#" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>
-                      Positive
+                      Nilai terpuji
                       <i class="right fas fa-angle-left"></i>
                     </p>
                   </a>
@@ -176,13 +176,13 @@
                     <li class="nav-item">
                       <a href="<?=BASEURL?>/dutiful" class="nav-link">
                         <i class="far fa-dot-circle nav-icon"></i>
-                        <p>Rules</p>
+                        <p>Aturan</p>
                       </a>
                     </li>
                     <li class="nav-item">
                       <a href="#" class="nav-link">
                         <i class="far fa-dot-circle nav-icon"></i>
-                        <p>Reward</p>
+                        <p>Apresiasi</p>
                       </a>
                     </li>
                   </ul>
@@ -193,7 +193,7 @@
             <li class="nav-item">
                 <a href="<?=BASEURL?>/action" class="nav-link">
                  <i class="fa fa-balance-scale nav-icon"></i>
-                 <p>Action</p>
+                 <p>Tindakan</p>
                </a>
             </li>
           <?php endif ?>

@@ -17,7 +17,7 @@ function countPersentase($type, $data){
               <span class="info-box-icon bg-info elevation-1"><i class="fas fa-users"></i></span>
 
               <div class="info-box-content">
-                <span class="info-box-text">Total Student</span>
+                <span class="info-box-text">Total Siswa</span>
                 <span class="info-box-number"><?=$data['type']['total_student']?></span>
               </div>
               <!-- /.info-box-content -->
@@ -30,7 +30,7 @@ function countPersentase($type, $data){
               <span class="info-box-icon bg-success elevation-1"><i class="fas fa-award"></i></span>
 
               <div class="info-box-content">
-                <span class="info-box-text">Positive</span>
+                <span class="info-box-text">Patuh</span>
                 <span class="info-box-number"><?=@countPersentase('total_dutiful', $data['type'])?><small>%</small></span>
               </div>
               <!-- /.info-box-content -->
@@ -45,7 +45,7 @@ function countPersentase($type, $data){
               <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-exclamation-circle"></i></span>
 
               <div class="info-box-content">
-                <span class="info-box-text">Tolerancy</span>
+                <span class="info-box-text">Toleransi</span>
                 <span class="info-box-number"><?=(@$data['type']['total_tolerance'])?$data['type']['total_tolerance']:'NaN'?></span>
               </div>
               <!-- /.info-box-content -->
@@ -61,7 +61,7 @@ function countPersentase($type, $data){
               <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-ban"></i></span>
 
               <div class="info-box-content">
-                <span class="info-box-text">Negative</span>
+                <span class="info-box-text">Pelanggaran</span>
                 <span class="info-box-number"><?=@countPersentase('total_violation', $data['type'])?><small>%</small></span>
               </div>
               <!-- /.info-box-content -->
@@ -74,7 +74,7 @@ function countPersentase($type, $data){
         <!-- BAR CHART -->
         <div class="card card-success">
           <div class="card-header">
-            <h3 class="card-title">Ratio Dutiful and Violation</h3>
+            <h3 class="card-title">Rasio Kepatuhan dan Pelanggaran</h3>
 
             <div class="card-tools">
               <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
@@ -93,7 +93,7 @@ function countPersentase($type, $data){
 
         <div class="card">
           <div class="card-header bg-info">
-            <h3 class="card-title">Information</h3>
+            <h3 class="card-title">Informasi</h3>
 
             <div class="card-tools">
               <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
@@ -103,7 +103,7 @@ function countPersentase($type, $data){
                 </div>
               </div>
               <div class="card-body">
-                <?=($_SESSION['user']['class'] == "staff" ) ? 'Hello, Welcome back, '.$_SESSION['user']['homeroom_teacher'] :  'Welcome from this aplication Sir./Ms. '.$_SESSION['user']['homeroom_teacher']?>
+                <?=($_SESSION['user']['class'] == "staff" ) ? 'Hello, Selamat datang kembali, '.$_SESSION['user']['homeroom_teacher'] :  'Selamat datang di aplikasi bimbingan dan konseling, bapak/ibu '.$_SESSION['user']['homeroom_teacher']?>
               </div>
               <!-- /.card-body -->
               <div class="card-footer">

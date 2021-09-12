@@ -4,14 +4,16 @@ const main = () => {
 	load_action();
 	
 	//
-	$("#tbl_students").DataTable({
-		"responsive": true,
-		"autoWidth": true,
-		"pageLength": 5,
-		"lengthMenu": [5, 15, 20, 50, 75, 100 ],
-		"order": [[ 2, "asc" ]]
+	$(document).ready(function(){
+    const indexLastColumn = $("#tbl_students").find('tr')[1].cells.length-2;
+		$("#tbl_students").DataTable({
+			"responsive": true,
+			"autoWidth": true,
+			"pageLength": 5,
+			"lengthMenu": [5, 15, 20, 50, 75, 100 ],
+			"order": [[ indexLastColumn, "desc" ]]
+		});
 	});
-
 	$("input#status").on("click", function(){
 		switch(this.value){
 			case "0":

@@ -7,7 +7,7 @@
         <!-- SELECT2 EXAMPLE -->
         <div class="card card-default">
           <div class="card-header bg-success">
-            <h3 class="card-title">Add student commandable action data</h3>
+            <h3 class="card-title">Tambah laporan nilai terpuji siswa</h3>
 
             <div class="card-tools">
               <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
@@ -22,7 +22,7 @@
 
                 <div class="col-md-12">
                   <div class="form-group">
-                    <label>Value</label>
+                    <label>Nilai terpuji</label>
                     <input type="hidden" name="type" value="dutiful">
                     <input type="hidden" name="reporter" value="<?=$_SESSION['user']['NIP']?>">
                     <div class="select2-success">
@@ -39,7 +39,7 @@
                 <!-- /.col -->
                 <div class="col-12">
                   <div class="form-group">
-                    <label>Students</label>
+                    <label>Siswa</label>
                     <select class="duallistbox" multiple="multiple" name="students[]" required>
                       <?php foreach ($data['students'] as $key => $value): ?>
                         <option value="<?=$value['NISS']?>,<?=$value['NISN']?>" ><?=$value['fullname']?> - <?=$value['class']?></option>
@@ -52,9 +52,9 @@
 
                 <div class="col-md-6">
                   <div class="form-group">
-                    <label>Teacher Confirmation</label>
+                    <label>Konfirmasi Guru wali kelas yang bersangkutan </label>
                     <select class="form-control select2" style="width: 100%;" name="teacher-confirmation" required>
-                      <option selected="selected">Confirmation to homeroom Teacher</option>
+                      <option selected="selected">Pilih guru wali kelas</option>
                       <?php foreach ($data['teacher'] as $key => $value): ?>
                       <option value="<?=$value['NIP']?>"><?=$value['homeroom_teacher']?> - <?=$value['class']?></option>                        
                       <?php endforeach ?>
@@ -66,7 +66,7 @@
                 <div class="col-md-6">
                   <!-- Date -->
                   <div class="form-group">
-                    <label>Date:</label>
+                    <label>Tanggal:</label>
                       <input type="date" name="date" class="form-control" required>
                   </div>
                 </div>
@@ -74,7 +74,7 @@
                 <div class="col col-mb-12">
                   <div class="form-group">
                     
-                    <label for="">Messages</label>
+                    <label for="">Pesan</label>
                     <textarea class="form-control" name="message" id="" cols="30" rows="10"></textarea>
                   </div>
                 </div>
@@ -85,7 +85,7 @@
             <!-- /.card-body -->
             <div class="card-footer">
               <div class="float-right">
-                <button class="btn btn-primary"><i class="fa fa-save"></i></button>
+                <button class="btn btn-primary">Simpan</button>
               </div>
             </div>
           </form>

@@ -7,7 +7,7 @@
         <!-- SELECT2 EXAMPLE -->
         <div class="card card-default">
           <div class="card-header bg-success">
-            <h3 class="card-title">Report Student</h3>
+            <h3 class="card-title">Siswa terlaporkan</h3>
 
             <div class="card-tools">
               <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
@@ -24,12 +24,13 @@
                   <table id="tbl_students" class="table table-bordered table-striped">
                     <thead>
                       <tr>
-                        <th>Student Name</th>
+                        <th>Nama Siswa</th>
                         <th>NISS</th>
                         <?php foreach ($data['criteria'] as $key => $value): ?>
                         <th title="<?=$value['name']?>">C<?=$key+1?></th>
                         <?php endforeach ?>
                         <th>Total</th>
+                        <th>Tanggal</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -42,6 +43,7 @@
                         <td><?=(@$value[$criteria['name']])?$value[$criteria['name']]:0?></td>
                         <?php endforeach ?>
                         <td><?=$value['Total']?></td>
+                        <td><?=($value['date'])?></td>
                       </tr>
                         <?php endif ?>
                       <?php endforeach ?>
@@ -55,6 +57,7 @@
                         <th title="<?=$criteria['name']?>"><?=(@$value[$criteria['name']])?$value[$criteria['name']]:'0'?></th>
                         <?php endforeach ?>
                         <th><?=(@$value['Total'])?$value['Total']:'0'?></th>
+                        <th>Tanggal</th>
                       </tr>
                         <?php endif ?>
                       <?php endforeach ?>
@@ -76,4 +79,4 @@
     </div>
   </div>
 </section>
-<!-- /.content -->
+<!-- /.content

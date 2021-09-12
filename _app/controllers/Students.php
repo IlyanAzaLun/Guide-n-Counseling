@@ -26,7 +26,7 @@ class Students extends Controller
 		# code...
 		$data['students'] = $this->model('M_students')->render($class);
 		$data['class'] = $this->request->load_class();
-		$this->page['title'] = 'Students';
+		$this->page['title'] = 'Siswa';
 		$this->view('components/_header');
 
 		//  summernote
@@ -71,7 +71,7 @@ class Students extends Controller
 				exit;
 			}
 		}else{
-			$this->page['title'] = 'Students';
+			$this->page['title'] = 'Siswa';
 			$this->view('components/_header');
 			$this->view('components/sidebar');
 			$this->view('components/content-header');
@@ -107,7 +107,7 @@ class Students extends Controller
 			}
 			unlink($target_file);
 		}else{
-			$this->page['title'] = 'Students';
+			$this->page['title'] = 'Siswa';
 			$this->view('components/_header');
 			$this->view('components/sidebar');
 			$this->view('components/content-header');
@@ -131,7 +131,7 @@ class Students extends Controller
 			$data['report'] = $request_report->select_reportBy_NISS($NISS);
 			$data['date'] = $request_report->select_report_date($NISS);
 			$data['type'] = $request_report->select_typeCriteriaAnd_value($NISS);
-			$this->page['title'] = 'Students Info';
+			$this->page['title'] = 'Informasi Siswa';
 			$this->view('components/_header');
 
 			$this->view('components/sidebar');

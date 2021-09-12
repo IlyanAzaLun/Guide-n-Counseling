@@ -25,7 +25,7 @@ class Teacher extends Controller
 	public function index()
 	{
 		$data['total_links'] = ceil(sizeof($this->model('M_teacher')->read($_SESSION['user']['NIP']))/$this->limit);
-		$this->page['title'] = 'List Homeroom Teacher';
+		$this->page['title'] = 'Daftar guru wali';
 		$this->view('components/_header');
 
 		$this->view('components/sidebar');

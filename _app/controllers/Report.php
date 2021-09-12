@@ -27,7 +27,7 @@ class Report extends Controller
         	$data['tmp'] = ($key == @sizeof($data['report'])-1) ? $value['Total'] : '0' ;
         }
 	
-		$this->page['title'] = 'Report';
+		$this->page['title'] = 'Terlaporkan';
 		$this->view('components/_header');
 
 		$this->style('plugins/datatables-bs4/css/dataTables.bootstrap4.min');
@@ -61,7 +61,7 @@ class Report extends Controller
 		$data['students'] = $this->model('M_students')->students();
 		$data['violation'] = $this->model('M_criteria')->select_criteria('violation');
 		$data['teacher'] = $this->model('M_teacher')->read($_SESSION['user']['NIP']);
-		$this->page['title'] = 'Tolerance to students';
+		$this->page['title'] = 'Toleransi pelanggaran untuk siswa';
 		$this->view('components/_header');
 
 		$this->style('plugins/select2/css/select2.min');
@@ -85,7 +85,7 @@ class Report extends Controller
 		$data['students'] = $this->model('M_students')->students();
 		$data['violation'] = $this->model('M_criteria')->select_criteria('violation');
 		$data['teacher'] = $this->model('M_teacher')->read($_SESSION['user']['NIP']);
-		$this->page['title'] = 'Behavior Report';
+		$this->page['title'] = 'Laporkan perilaku';
 		$this->view('components/_header');
 
 		$this->style('plugins/select2/css/select2.min');
@@ -109,7 +109,7 @@ class Report extends Controller
 		$data['students'] = $this->model('M_students')->students();
 		$data['dutiful'] = $this->model('M_criteria')->select_criteria('dutiful');
 		$data['teacher'] = $this->model('M_teacher')->read($_SESSION['user']['NIP']);
-		$this->page['title'] = 'Behavior Report';
+		$this->page['title'] = 'Laporkan perilaku';
 		$this->view('components/_header');
 
 		$this->style('plugins/select2/css/select2.min');

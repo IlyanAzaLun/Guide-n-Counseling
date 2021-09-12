@@ -216,7 +216,7 @@ CREATE TABLE `tbl_configuration` (
 --
 
 INSERT INTO `tbl_configuration` (`variable`, `value`) VALUES
-('title', 'Konselng dan Bimbingan');
+('title', 'Bimbingan dan Konseling');
 
 -- --------------------------------------------------------
 

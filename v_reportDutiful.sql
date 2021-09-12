@@ -1,5 +1,5 @@
 SELECT 
-            report.date
+        report.date
       , student.NISS
       , student.NISN
       , student.fullname student_name

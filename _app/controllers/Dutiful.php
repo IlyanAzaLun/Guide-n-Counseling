@@ -22,7 +22,7 @@ class Dutiful extends Controller
 	public function index()
 	{
 		$data['dutiful'] = $this->model('M_criteria')->select_criteria('dutiful');
-		$this->page['title'] = 'Value of Admirable';
+		$this->page['title'] = 'Nilai terpuji';
 		$this->view('components/_header');
 				//  datatabels		
 		$this->style('plugins/datatables-bs4/css/dataTables.bootstrap4.min');

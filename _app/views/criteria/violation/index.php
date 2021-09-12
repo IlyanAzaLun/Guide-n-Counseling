@@ -9,7 +9,7 @@
         <!-- Default box -->
         <div class="card <?=(!empty($data['violation'])?'collapse':'')?>" id="field_rules">
           <div class="card-header bg-primary">
-            <h3 class="card-title"><?=(!empty($data['violation'])?'Update':'Create')?> Rules</h3>
+            <h3 class="card-title"><?=(!empty($data['violation'])?'Ubah':'Buat')?> aturan</h3>
             <div class="card-tools">
               <button type="button" class="btn btn-tool" data-toggle="collapse" data-target="#form-field" aria-expanded="true" aria-controls="form-field"><i class="fas fa-minus"></i></button>
               <button type="button" class="btn btn-tool collapsed" data-toggle="collapse" data-target="#field_rules" aria-expanded="false" aria-controls="field_rules"><i class="fas fa-times"></i></button>
@@ -20,16 +20,16 @@
               <div class="row"  id="parent">
                 <div class="col-8">
                   <div class="form-group">
-                    <label for="">Criteria</label>
+                    <label for="">Kriteria</label>
                     <input type="text" name="criteria[]" class="form-control" required>
                   </div>
                 </div>
                 <div class="col-4">
-                  <label for="">Weight: <span id="weight"></span></label>
+                  <label for="">Bobot: <span id="weight"></span></label>
                   <div class="input-group mb-3">
                     <input type="number" name="weight[]" id="weight" class="form-control" required step="0.001">
                     <div class="input-group-append">
-                      <button type="button" id="add" class="btn btn-primary"><i class="fa fa-plus"></i></button>
+                      <button type="button" id="add" class="btn btn-primary" data-toggle="tooltip" title="Tambah aturan"><i class="fa fa-plus"></i></button>
                     </div>
                   </div>
                 </div>
@@ -37,14 +37,14 @@
               </div>
             </div>
             <div class="card-footer">
-              <button type="sumbit" class="btn btn-primary float-right"><i class="fa fa-save"></i></button>  
+              <button type="sumbit" class="btn btn-primary float-right">Simpan</i></button>  
             </div>
           </form>
         </div>
 
         <div class="card <?=(empty($data['violation'])?'collapse':'')?>">
           <div class="card-header bg-danger">
-            <h3 class="card-title">Table of Rules</h3>
+            <h3 class="card-title">Tabel aturan</h3>
             <div class="card-tools">
               <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
             </div>
@@ -54,7 +54,7 @@
             <table id="tbl_criteria" class="table table-bordered table-striped">
               <thead>
                 <tr>
-                  <th>Criteria</th>
+                  <th>Kriteria</th>
                   <?php foreach ($data['violation'] as $key => $value): ?>
                   <th title="<?=$value['name']?>">C<?=$key+1?></th>
                   <?php endforeach ?>
@@ -63,7 +63,7 @@
               </thead>
               <tbody>
                 <tr>
-                  <th>Weight</th>
+                  <th>Bobot</th>
                   <?php foreach ($data['violation'] as $key => $value): ?>
                   <th><?=$value['weight']?></th>
                   <?php endforeach ?>

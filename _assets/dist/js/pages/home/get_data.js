@@ -26,7 +26,7 @@ class get_data{
 			      labels  : label,
 			      datasets: [
 			        {
-			          label               : 'Negative',
+			          label               : 'Pelanggaran',
 			          backgroundColor     : 'rgba(230, 42, 42,0.9)',
 			          borderColor         : 'rgba(230, 42, 42,0.8)',
 			          pointRadius          : false,
@@ -37,7 +37,7 @@ class get_data{
 			          data                : totalVilation
 			        },
 			        {
-			          label               : 'Positive',
+			          label               : 'Kepatuhan',
 			          backgroundColor     : 'rgba(40, 167, 69, 1)',
 			          borderColor         : 'rgba(40, 167, 69, 1)',
 			          pointRadius         : false,
