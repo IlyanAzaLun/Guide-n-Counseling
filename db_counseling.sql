@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Sep 12, 2021 at 08:00 AM
+-- Generation Time: Sep 12, 2021 at 08:09 AM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 7.3.27
 
@@ -613,7 +613,7 @@ CREATE TABLE `tbl_student` (
 
 INSERT INTO `tbl_student` (`NISS`, `NISN`, `fullname`, `gender`, `class`, `photo`, `status`, `counseling`) VALUES
 (1920, 30434321, 'NUR AULIA', 'P', 'XII-3', '', 1, 0),
-(18112015, 18112015, 'IYANG AGUNG SUPRIATNA', 'L', 'X-1', '/_assets/photos/student-1629726614.png', 1, 0),
+(18112015, 18112015, 'IYANG AGUNG SUPRIATNA', 'L', 'X-1', '/_assets/photos/student-1629726614.png', 1, 1),
 (18112016, 18112016, 'NANDA AGUSTINA RAHAYU', 'P', 'X-1', '/_assets/photos/student-1631417392.png', 0, 0),
 (18112017, 18112017, 'AGUS NUFATUROHMAN', 'L', 'X-1', '', 1, 0),
 (23746683, 23746684, 'AZZAHRA AZKA TSAQOFA', 'P', 'XII-1', '', 1, 0),

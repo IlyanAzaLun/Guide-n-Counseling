@@ -38,7 +38,7 @@
                   <tr>
                     <td><?=$student['NISS']?></td>
                     <td><?=$student['NISN']?></td>
-                    <td><?=$student['fullname']?><span class="right badge badge-danger ml-2">New</span></td>
+                    <td><?=$student['fullname']?></td>
                     <td><?=($student['gender']=="L") ? 'Laki-laki' : 'Perempuan' ;?></td>
                     <?php if ($_SESSION['user']['class'] === "staff"): ?>
                       <td><?=$student['class']?></td>
