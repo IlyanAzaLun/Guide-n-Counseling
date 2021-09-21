@@ -18,13 +18,19 @@
           <form action="<?=BASEURL?>/violation/<?=(!empty($data['violation'])?'update':'insert')?>" method="POST" id="form-field">
             <div class="card-body" id="dynamic_field">
               <div class="row"  id="parent">
+                <div class="col-2">
+                  <div class="form-group">
+                    <label for="">Inisial</label>
+                    <input type="text" name="initial[]" class="form-control" required>
+                  </div>
+                </div>
                 <div class="col-8">
                   <div class="form-group">
                     <label for="">Kriteria</label>
                     <input type="text" name="criteria[]" class="form-control" required>
                   </div>
                 </div>
-                <div class="col-4">
+                <div class="col-2">
                   <label for="">Bobot: <span id="weight"></span></label>
                   <div class="input-group mb-3">
                     <input type="number" name="weight[]" id="weight" class="form-control" required step="0.001">

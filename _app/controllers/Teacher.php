@@ -31,7 +31,7 @@ class Teacher extends Controller
 		$this->view('components/sidebar');
 		$this->view('components/content-header');
 		$this->view('teacher/index', $data);
-		$this->view('teacher/modal');
+		$this->view('teacher/modal', $data);
 		$this->view('components/content-footer');
 				//  vallidation
 		$this->script('plugins/jquery-validation/jquery.validate.min');
@@ -119,6 +119,19 @@ class Teacher extends Controller
 			exit;
 		}
 		unlink($target_file);
+	}
+
+	public function delete()
+	{
+		if($this->model('M_teacher')->delete_teacher($_POST)){
+			Flasher::setFlash('success', ',Success !', ',to empty field teachers');
+			header('Location: '.$_SERVER['HTTP_REFERER']);
+			exit;
+		}else{
+			Flasher::setFlash('warning', ',Error !', ',check again your data if updateed don\'t worry');
+			header('Location: '.$_SERVER['HTTP_REFERER']);
+			exit;
+		}
 	}
 
 	public function truncate()

@@ -24,6 +24,12 @@ const main = () => {
 		$(this).parent().addClass('active');
 		const query = $('#search_box').val();
 		load_data(page, query);
+	});
+
+	$(document).ready(function(){
+		$(document).on('click', '.btn.btn-sm.btn-danger[data-target="#modal-conformation-delete"]', function(){
+			$('#modal-conformation-delete').find('input').val($(this).data('nip'));
+		})
 	})
 
 	$('#search_box').keyup(function(){

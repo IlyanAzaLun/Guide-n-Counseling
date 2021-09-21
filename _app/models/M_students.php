@@ -51,7 +51,7 @@ class M_students
 				ON student.NISS = report.NISS
 				JOIN tbl_teacher teacher
 				ON student.class = teacher.class';
-		$sql .= ($class !== "YWxs") ? ' WHERE tbl_student.`class` = :class 
+		$sql .= ($class !== "YWxs") ? ' WHERE student.class = :class 
 				GROUP BY student.NISS;' : '
 				GROUP BY student.NISS;';
 		$this->db->query($sql);
@@ -99,13 +99,29 @@ class M_students
 
 	public function update($data)
 	{
-		$this->db->query('UPDATE `tbl_student` SET `NISN` = :NISN, `fullname` = :name, `class` = :class, `photo` = :url, `status` = :status WHERE `NISS` = :NISS');
+		$this->db->query('UPDATE `tbl_student` SET `NISN` = :NISN, `fullname` = :name, `class` = :class, `status` = :status WHERE `NISS` = :NISS');
 		$this->db->bind('NISN', $data['NISN']);
 		$this->db->bind('NISS', $data['NISS']);
 		$this->db->bind('name', $data['name']);
 		$this->db->bind('class', $data['class']);
-		$this->db->bind('url', $data['url']);
 		$this->db->bind('status', (int)$data['status']);
+		$this->db->execute();
+		return $this->db->rowCount();
+	}
+
+	public function updatefoto($data)
+	{
+		$this->db->query('UPDATE `tbl_student` SET`photo` = :url WHERE `NISS` = :NISS');
+		$this->db->bind('NISS', $data['NISS']);
+		$this->db->bind('url', $data['url']);
+		$this->db->execute();
+		return $this->db->rowCount();
+	}
+
+	public function delete($data)
+	{
+		$this->db->query('DELETE FROM `tbl_student` WHERE `tbl_student`.`NISS` = :NISS');
+		$this->db->bind('NISS', $data['NISS']);
 		$this->db->execute();
 		return $this->db->rowCount();
 	}

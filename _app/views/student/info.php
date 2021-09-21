@@ -174,88 +174,120 @@ function countPersentase($type, $data){
               <!-- /.tab-pane -->
 
               <div class="tab-pane" id="settings">
+                <!-- Settings -->
                 <form class="form-horizontal" method="POST" action="<?=BASEURL?>/students/update" enctype="multipart/form-data">
-                  <div class="form-group row">
-                    <label for="inputName" class="col-lg-2 col-form-label">Nama</label>
-                    <div class="col-10 col-lg-10 col-sm">
-                      <input type="text" class="form-control" id="inputName" name="name" placeholder="Name" value="<?=$data['student']['fullname']?>" required>
+                  <div class="card card-warning">
+                    <div class="card-header">
+                      <h3 class="card-title">Ubah informasi siswa</h3>
                     </div>
-                  </div>
-                  <div class="form-group row">
-                    <label for="inputNISS" class="col-lg-2 col-form-label">NISN/ Kelas</label>
-                    <div class="col-10 col-lg-5 col-sm-8">
-                      <input type="text" class="form-control" id="inputNISN" name="NISN" placeholder="NISN" value="<?=$data['student']['NISN']?>" required>
-                    </div>
-
-                    <div class="col-10 col-lg-5 col-sm">
-                      <input type="text" class="form-control" id="inputClass" name="class" placeholder="Class" value="<?=$data['student']['class']?>" required>
-                    </div>
-
-                    <div class="col-10 col-lg-5 col-sm">
-                      <input type="hidden" class="form-control" id="inputNISS" name="NISS" placeholder="NISS" value="<?=$data['student']['NISS']?>">
-                    </div>
-                  </div>
-
-                  <div class="form-group row">
-                    <label for="inputPhoto" class="col-lg-2 col-form-label">Foto</label>
-                    <div class="input-group col-10 col-lg-10 col-sm-10">
-                      <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="inputPhoto" name="image" required>
-                        <label class="custom-file-label" for="inputPhoto">Choose file</label>
-                      </div>
-                      <div class="input-group-append">
-                        <span class="input-group-text" id="">Upload</span>
+                  <div class="card-body">
+                    <div class="form-group row">
+                      <label for="inputName" class="col-lg-2 col-form-label">Nama</label>
+                      <div class="col-10 col-lg-10 col-sm">
+                        <input type="text" class="form-control" id="inputName" name="name" placeholder="Name" value="<?=$data['student']['fullname']?>" required>
                       </div>
                     </div>
-                  </div>
+                    <div class="form-group row">
+                      <label for="inputNISS" class="col-lg-2 col-form-label">NISN/ Kelas</label>
+                      <div class="col-10 col-lg-5 col-sm-8">
+                        <input type="text" class="form-control" id="inputNISN" name="NISN" placeholder="NISN" value="<?=$data['student']['NISN']?>" required>
+                      </div>
+
+                      <div class="col-10 col-lg-5 col-sm">
+                        <input type="text" class="form-control" id="inputClass" name="class" placeholder="Class" value="<?=$data['student']['class']?>" required>
+                      </div>
+
+                      <div class="col-10 col-lg-5 col-sm">
+                        <input type="hidden" class="form-control" id="inputNISS" name="NISS" placeholder="NISS" value="<?=$data['student']['NISS']?>">
+                      </div>
+                    </div>
 
                   <!--  -->
-                  <div class="form-group row">
-                    <label class="col-lg-2 col-form-label">Status</label>
-                    <!-- RADIO -->
-                    <div class="form-group clearfix col-lg-10 mt-2">
-                      <div class="icheck-primary d-inline">
-                        <input type="radio" id="radioPrimary1" name="r1" checked="">
-                        <label for="radioPrimary1">
-                          Belum
-                        </label>
+                    <div class="form-group row">
+                      <label class="col-lg-2 col-form-label">Status</label>
+                      <!-- RADIO -->
+                      <div class="form-group clearfix col-lg-10 mt-2">
+                        <div class="icheck-primary d-inline">
+                          <input type="radio" id="radioPrimary1" name="r1" checked="">
+                          <label for="radioPrimary1">
+                            Belum
+                          </label>
+                        </div>
+                        <div class="icheck-primary d-inline">
+                          <input type="radio" id="radioPrimary2" name="r1">
+                          <label for="radioPrimary2">
+                            Segera
+                          </label>
+                        </div>
+                        <div class="icheck-primary d-inline">
+                          <input type="radio" id="radioPrimary3" name="r1">
+                          <label for="radioPrimary3">
+                            Prosess
+                          </label>
+                        </div>
+                        <div class="icheck-primary d-inline">
+                          <input type="radio" id="radioPrimary4" name="r1">
+                          <label for="radioPrimary4">
+                            Sudah
+                          </label>
+                        </div>
+                        <label class="float-right">Bimbingan</label>
                       </div>
-                      <div class="icheck-primary d-inline">
-                        <input type="radio" id="radioPrimary2" name="r1">
-                        <label for="radioPrimary2">
-                          Segera
-                        </label>
+                      <!-- RADIO -->
+                      <div class="col-lg-2"></div>
+                      <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success ml-2">
+                        <input type="checkbox" class="custom-control-input" id="status" name="status" <?=($data['student']['status']==="1")?'checked value="1"':'value="0"'?>>
+                        <label class="custom-control-label" for="status"><?=($data['student']['status']==="1")?'Aktif':'Pindah'?> </label>
                       </div>
-                      <div class="icheck-primary d-inline">
-                        <input type="radio" id="radioPrimary3" name="r1">
-                        <label for="radioPrimary3">
-                          Prosess
-                        </label>
-                      </div>
-                      <div class="icheck-primary d-inline">
-                        <input type="radio" id="radioPrimary4" name="r1">
-                        <label for="radioPrimary4">
-                          Sudah
-                        </label>
-                      </div>
-                      <label class="float-right">Bimbingan</label>
                     </div>
-                    <!-- RADIO -->
-                    <div class="col-lg-2"></div>
-                    <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success ml-2">
-                      <input type="checkbox" class="custom-control-input" id="status" name="status" <?=($data['student']['status']==="1")?'checked value="1"':'value="0"'?>>
-                      <label class="custom-control-label" for="status"><?=($data['student']['status']==="1")?'Aktif':'Pindah'?> </label>
-                    </div>
-                  </div>
-                  <input type="hidden" name="tmp" value="<?=$data['student']['photo']?>">
-                  <!--  -->
+                   <!--  -->
 
-                  <div class="form-group row">
-                    <div class="offset-sm-2 col-sm-10">
-                      <button type="Submitmit" class="btn btn-danger">Submit</button>
+                    <div class="form-group row">
+                      <div class="offset-sm-2 col-sm-10">
+                        <button type="submit" class="btn btn-primary float-right">Simpan</button>
+                      </div>
                     </div>
-                  </div>
+                <!-- Settings -->
+                </div>
+                </div>
                 </form>
+                <!--  -->
+                <div class="card card-success">
+                  <div class="card-header">
+                    <h3 class="card-title">Ubah foto siswa</h3>
+                  </div>
+                  <form class="form-horizontal" method="POST" action="<?=BASEURL?>/students/update" enctype="multipart/form-data">
+                    <div class="card-body">
+                      <input type="hidden" class="form-control" id="inputNISS" name="NISS" placeholder="NISS" value="<?=$data['student']['NISS']?>">
+                      <input type="hidden" name="tmp" value="<?=$data['student']['photo']?>">
+                      <div class="form-group row">
+                        <label for="inputPhoto" class="col-lg-2 col-form-label">Foto</label>
+                        <div class="input-group col-10 col-lg-10 col-sm-10">
+                          <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="inputPhoto" name="image" required>
+                            <label class="custom-file-label" for="inputPhoto">Choose file</label>
+                          </div>
+                          <div class="input-group-append">
+                            <span class="input-group-text" id="">Upload</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <div class="offset-sm-2 col-sm-10">
+                          <button type="submit" class="btn btn-primary float-right">Simpan</button>
+                        </div>
+                      </div>
+
+                    </div>
+                  </form>
+                  <!-- /.card-body -->
+                </div>
+
+                <div class="callout callout-info bg-danger pb-5">
+                  <h5><i class="fas fa-info"></i> Hapus data siswa</h5>
+                  <button type="submit" class="btn btn-primary float-right" data-toggle="modal" data-target="#modal-delete-student">Hapus</button>
+                </div>
+                <!--  -->
               </div>
               <!-- /.tab-pane -->
             </div>

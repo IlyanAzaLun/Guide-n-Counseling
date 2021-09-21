@@ -110,3 +110,29 @@
     </div>
   </div>
 </div>
+
+
+  <!-- delete student -->
+<div class="modal fade" id="modal-delete-student" tabindex="-1" role="dialog" aria-labelledby="modal-student" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modal-delete">Hapus data siswa</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="<?=BASEURL?>/students/delete" method="POST" role="form" enctype="multipart/form-data">
+        <div class="modal-body">
+          <input type="hidden" name="NISS" value="<?=$data['student']['NISS']?>">
+          <input type="hidden" name="tmp" value="<?=$data['student']['photo']?>">
+          <h6><i class="icon fas fa-exclamation-triangle fa-lg"></i> Apakah anda yakin akan menghapus data siswa <br><b class="mt-2"><?=$data['student']['fullname']?></b>?</h6>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-danger">Yes do it..</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

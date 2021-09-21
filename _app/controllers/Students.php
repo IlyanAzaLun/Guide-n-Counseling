@@ -47,7 +47,14 @@ class Students extends Controller
 		$this->script('plugins/datatables-bs4/js/dataTables.bootstrap4.min');
 		$this->script('plugins/datatables-responsive/js/dataTables.responsive.min');
 		$this->script('plugins/datatables-responsive/js/responsive.bootstrap4.min');
-						//  summernote
+
+		$this->script('plugins/datatables-buttons/js/dataTables.buttons.min');
+		$this->script('plugins/datatables-buttons/js/buttons.bootstrap4.min');
+		$this->script('plugins/datatables-buttons/js/buttons.print.min');
+		$this->script('plugins/datatables-buttons/js/buttons.html5.min');
+		$this->script('plugins/datatables-buttons/js/buttons.flash.min');
+		$this->script('plugins/datatables-buttons/js/buttons.colVis.min');
+		//  summernote
 		// $this->script('plugins/summernote/summernote-bs4.min');
 		
 		$this->script('plugins/datatables-buttons/js/dataTables.buttons.min');
@@ -138,6 +145,7 @@ class Students extends Controller
 			$this->view('components/content-header');
 			//view
 			$this->view('student/info', $data);
+			$this->view('student/modal', $data);
 			//view
 			$this->view('components/content-footer');
 
@@ -173,7 +181,7 @@ class Students extends Controller
 
 				$_POST['url'] = "/_assets/photos/".$file_name;
 
-				if($this->model('M_students')->update($_POST) > 0){
+				if($this->model('M_students')->updatefoto($_POST) > 0){
 					unlink(getcwd().$_POST['tmp']);
 					Flasher::setFlash('success', ',Success !', ',to update your students');
 					header('Location: '.$_SERVER['HTTP_REFERER']);
@@ -188,6 +196,32 @@ class Students extends Controller
 				header('Location: '.$_SERVER['HTTP_REFERER']);
 				return false;
 			}
+		}else{
+			if($this->model('M_students')->update($_POST) > 0){
+				//unlink(getcwd().$_POST['tmp']);
+				Flasher::setFlash('success', ',Success !', ',to update your students');
+				header('Location: '.$_SERVER['HTTP_REFERER']);
+				exit;
+			}else{
+				Flasher::setFlash('danger', ',Failed !', ',check again your data if updateed don\'t worry');
+				header('Location: '.$_SERVER['HTTP_REFERER']);
+				exit;
+			}
+		}
+	}
+
+	public function delete()
+	{
+		var_dump($_POST);
+		if($this->model('M_students')->delete($_POST) > 0){
+			unlink(getcwd().$_POST['tmp']);
+			Flasher::setFlash('success', ',Success !', ',to update your students');
+			header('Location: '.$_SERVER['HTTP_REFERER']);
+			exit;
+		}else{
+			Flasher::setFlash('danger', ',Failed !', ',check again your data if updateed don\'t worry');
+			header('Location: '.$_SERVER['HTTP_REFERER']);
+			exit;
 		}
 	}
 }

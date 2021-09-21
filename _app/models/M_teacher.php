@@ -84,6 +84,16 @@ class M_teacher
 		return $this->db->rowCount();
 	}
 
+	public function delete_teacher($data)
+	{
+		$this->db->query('
+			DELETE FROM `tbl_teacher` WHERE NIP = :NIP
+		');
+		$this->db->bind('NIP',$data['NIP']);
+		$this->db->execute();
+		return $this->db->rowCount();
+	}
+
 	public function update_teacher($data){
 		$this->db->query('
 		UPDATE `tbl_teacher` SET 

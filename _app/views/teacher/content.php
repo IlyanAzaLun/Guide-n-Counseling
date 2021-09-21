@@ -53,6 +53,9 @@ function view_ribbon($color, $text, $key){ ?>
             <a href="<?=BASEURL?>/users/profile/<?=$key['NIP']?>" class="btn btn-sm btn-primary">
               <i class="fas fa-user"></i> View Profile
             </a>
+            <a href="javascript:void(0)" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#modal-conformation-delete" data-nip="<?=$key['NIP']?>">
+              <i class="fas fa-trash"></i> Delete
+            </a>
           </div>
         </div>
       </div>

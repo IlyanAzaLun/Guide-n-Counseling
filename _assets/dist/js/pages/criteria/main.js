@@ -4,6 +4,8 @@ const main = () => {
 	// dataTabels
 
 	$("#tbl_criteria").DataTable({
+		"dom": 'lBfrtip',
+		"buttons": [ 'copy', 'csv', 'excel', 'pdf', 'print', 'excelHtml5' ],
 		"responsive": true,
 		"autoWidth": true,
 		"paging": false,

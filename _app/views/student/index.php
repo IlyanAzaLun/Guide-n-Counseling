@@ -53,8 +53,8 @@
                     <td class="text-center">
                       <!-- INFO -->                      
                       <a href="<?=BASEURL.'/students/info/'.$student['NISS']?>" class="btn btn-sm btn-primary"><i class="fa fa-info-circle"></i></a>  
-                      <!-- EDIT -->                      
-                      <button type="button" class="btn btn-sm btn-warning" disabled><i class="fa fa-edit fa-inverse"></i></button>  
+                      <!-- EDIT -->
+                      <a href="<?=BASEURL.'/students/info/'.$student['NISS']?>/#settings" class="btn btn-sm btn-warning"><i class="fa fa-edit fa-inverse"></i></a>
                     </td>
                   </tr>
                   <?}?>

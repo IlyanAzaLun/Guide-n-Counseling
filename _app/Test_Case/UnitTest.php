@@ -27,35 +27,38 @@ class UnitTest extends TestCase
     // }
 
 
-    protected function dataUser($type){
-        return array('type' => $type);
-    }
-    public function testTeacher_index(){
-    	$this->assertEquals(true,Teacher::index());
-    }
-    public function testTeacher_insert(){
-    	$this->assertEquals(true,Teacher::insert($this->dataUser(true)));
-    }
-    public function testTeacher_update(){
-    	$this->assertEquals(true,Teacher::update($this->dataUser(true)));
-    }
-    public function testTeacher_delete(){
-    	$this->assertEquals(true,Teacher::delete($this->dataUser(true)));
-    }
+    // protected function dataUser($type){
+    //     return array('type' => $type);
+    // }
+    // public function testTeacher_index(){
+    // 	$this->assertEquals(true,Teacher::index());
+    // }
+    // public function testTeacher_insert(){
+    // 	$this->assertEquals(true,Teacher::insert($this->dataUser(true)));
+    // }
+    // public function testTeacher_update(){
+    // 	$this->assertEquals(true,Teacher::update($this->dataUser(true)));
+    // }
+    // public function testTeacher_delete(){
+    // 	$this->assertEquals(true,Teacher::delete($this->dataUser(true)));
+    // }
 
 
-    // public function testRule_index(){
-    // 	$this->assertEquals(true,Rules::index());
-    // }
-    // public function testRule_insert(){
-    // 	$this->assertEquals(true,Rules::insert(true));
-    // }
-    // public function testRule_update(){
-    // 	$this->assertEquals(true,Rules::update(true));
-    // }
-    // public function testRule_delete(){
-    // 	$this->assertEquals(true,Rules::delete(true));
-    // }
+    public function testRule_index(){
+    	$this->assertEquals(true,Rules::index());
+        for ($i=0; $i < 1000000; $i++) { 
+            $i;
+        }
+    }
+    public function testRule_insert(){
+    	$this->assertEquals(true,Rules::insert(true));
+    }
+    public function testRule_update(){
+    	$this->assertEquals(true,Rules::update(true));
+    }
+    public function testRule_delete(){
+    	$this->assertEquals(true,Rules::delete(true));
+    }
 
 
     // public function testReport(){

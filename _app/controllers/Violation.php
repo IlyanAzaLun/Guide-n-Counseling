@@ -43,6 +43,11 @@ class Violation extends Controller
 		$this->script('plugins/datatables-buttons/js/dataTables.buttons.min');
 		$this->script('plugins/datatables-buttons/js/buttons.bootstrap4.min');
 
+		$this->script('plugins/datatables-buttons/js/buttons.print.min');
+		$this->script('plugins/datatables-buttons/js/buttons.html5.min');
+		$this->script('plugins/datatables-buttons/js/buttons.flash.min');
+		$this->script('plugins/datatables-buttons/js/buttons.colVis.min');
+
 		$this->script('dist/js/pages/criteria/index', 'module');
 		$this->view('components/_footer');
 	}
