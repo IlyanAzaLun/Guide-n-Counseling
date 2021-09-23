@@ -16,13 +16,15 @@ DEALLOCATE PREPARE _sql;
 SET @stmt2 =CONCAT(
     'SELECT
         NISS,
-        student_name,',
+        student_name,
+        counseling,',
         @sums,
-        ',SUM(weight) AS Total
-    FROM ',tbl_name,' 
+        ',SUM(weight) AS Total,
+        max(date) AS date
+    FROM ',tbl_name,'
     GROUP BY student_name 
     WITH ROLLUP');
--- SELECT @stmt2;                       -- The statement that generates the result
+-- SELECT @stmt2;                         -- The statement that generates the result
 PREPARE _sql FROM @stmt2;
 EXECUTE _sql;                           -- The resulting pivot table ouput
 DEALLOCATE PREPARE _sql;

@@ -114,7 +114,7 @@ class M_report
 	public function report($tabel = 'v_reportViolation')
 	{
 		try {
-			$this->db->query("CALL sp_reportPivot2(:tabel);");
+			$this->db->query("CALL sp_reportPivot3(:tabel);");
 			$this->db->bind('tabel', $tabel);
 			$this->db->execute();
 			return  $this->db->resultSet();

@@ -106,10 +106,12 @@ class Students extends Controller
 			if($this->model('M_students')->insert_multiple_student($data) > 0){
 				Flasher::setFlash('success', ',Success !', ',to add your students');
 				header('Location: '.$_SERVER['HTTP_REFERER']);
+				unlink($target_file);
 				exit;
 			}else{
 				Flasher::setFlash('warning', ',Error !', ',check again your data if updateed don\'t worry');
 				header('Location: '.$_SERVER['HTTP_REFERER']);
+				unlink($target_file);
 				exit;
 			}
 			unlink($target_file);
@@ -198,7 +200,6 @@ class Students extends Controller
 			}
 		}else{
 			if($this->model('M_students')->update($_POST) > 0){
-				//unlink(getcwd().$_POST['tmp']);
 				Flasher::setFlash('success', ',Success !', ',to update your students');
 				header('Location: '.$_SERVER['HTTP_REFERER']);
 				exit;

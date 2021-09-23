@@ -2,6 +2,7 @@ SELECT
         report.date
       , student.NISS
       , student.NISN
+      , student.counseling
       , student.fullname student_name
       , criteria.name criteria_name
       , criteria.weight

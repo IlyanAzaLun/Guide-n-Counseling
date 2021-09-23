@@ -112,6 +112,7 @@ class Teacher extends Controller
 		if($this->model('M_teacher')->insert_multiple_teacher($data) > 0){
 			Flasher::setFlash('success', ',Success !', ',to add homeroom teachers');
 			header('Location: '.$_SERVER['HTTP_REFERER']);
+			unlink($target_file);
 			exit;
 		}else{
 			Flasher::setFlash('warning', ',Error !', ',check again your data if updateed don\'t worry');

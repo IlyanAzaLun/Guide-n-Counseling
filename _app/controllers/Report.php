@@ -138,11 +138,11 @@ class Report extends Controller
 	public function insert($type)
 	{
 		if($this->model('M_report')->insert_report($_POST, $type)){
-			Flasher::setFlash('success', ',Success !', ',to add repor tolerance');
+			Flasher::setFlash('success', ',Success !', ',to add repor '.$type);
 			header('Location: '.$_SERVER['HTTP_REFERER']);
 			exit;
 		}else{
-			Flasher::setFlash('error', ',Failed !', ',to add repor tolerance');
+			Flasher::setFlash('error', ',Failed !', ',to add repor '.$type);
 			header('Location: '.$_SERVER['HTTP_REFERER']);
 			exit;
 		}

@@ -36,8 +36,15 @@
                     <tbody>
                       <?php foreach ($data['report'] as $key => $value):?>
                         <?php if (@$value['student_name'] != NULL): ?>
+                          <!-- give condition to highlight row -->
                       <tr class="<?=($value['Total']>=((int)($data['tmp']/sizeof($data['criteria']))))?'bg-danger':''?>">
-                        <td><?=$value['student_name']?></td>
+                          <!-- give condition to highlight row -->
+                        <td><?=$value['student_name']?>
+                          <a href="<?=BASEURL.'/students/info/'.$value['NISS']?>/#settings" class="btn btn-xs btn-info float-right"><i class="fa fa-info-circle"></i></a>
+                          <span class="mr-2 float-right badge badge-<?=($value['counseling']==1 ? 'danger' : ($value['counseling']==2 ? 'success': ($value['counseling']==3 ? 'info': 'secondary') ) );?>"title="konseling/bimbingan">
+                        <?=($value['counseling']==1 ? 'segera' : ($value['counseling']==2 ? 'sudah': ($value['counseling']==3 ? 'prosess': 'belum') ) );?>
+                          </span>
+                        </td>
                         <td><?=($key !== (sizeof($data['report'])-1))?$value['NISS']:'<b>Total</b>'?></td>
                         <?php foreach ($data['criteria'] as $criteria): ?>
                         <td><?=(@$value[$criteria['name']])?$value[$criteria['name']]:0?></td>

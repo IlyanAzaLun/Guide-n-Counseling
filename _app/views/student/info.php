@@ -206,33 +206,35 @@ function countPersentase($type, $data){
                     <div class="form-group row">
                       <label class="col-lg-2 col-form-label">Status</label>
                       <!-- RADIO -->
+
                       <div class="form-group clearfix col-lg-10 mt-2">
                         <div class="icheck-primary d-inline">
-                          <input type="radio" id="radioPrimary1" name="r1" checked="">
-                          <label for="radioPrimary1">
+                          <input type="radio" id="counseling1" name="counseling" <?=($data['student']['counseling']==="0")?'checked':'';?> value="0">
+                          <label for="counseling1">
                             Belum
                           </label>
                         </div>
                         <div class="icheck-primary d-inline">
-                          <input type="radio" id="radioPrimary2" name="r1">
-                          <label for="radioPrimary2">
+                          <input type="radio" id="counseling2" name="counseling" <?=($data['student']['counseling']==="1")?'checked':'';?> value="1">
+                          <label for="counseling2">
                             Segera
                           </label>
                         </div>
                         <div class="icheck-primary d-inline">
-                          <input type="radio" id="radioPrimary3" name="r1">
-                          <label for="radioPrimary3">
+                          <input type="radio" id="counseling3" name="counseling" <?=($data['student']['counseling']==="3")?'checked':'';?> value="3">
+                          <label for="counseling3">
                             Prosess
                           </label>
                         </div>
                         <div class="icheck-primary d-inline">
-                          <input type="radio" id="radioPrimary4" name="r1">
-                          <label for="radioPrimary4">
+                          <input type="radio" id="counseling4" name="counseling" <?=($data['student']['counseling']==="2")?'checked':'';?> value="2">
+                          <label for="counseling4">
                             Sudah
                           </label>
                         </div>
                         <label class="float-right">Bimbingan</label>
                       </div>
+
                       <!-- RADIO -->
                       <div class="col-lg-2"></div>
                       <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success ml-2">

@@ -3,6 +3,7 @@ SELECT
       , student.NISS
       , student.NISN
       , student.fullname student_name
+      , student.counseling
       , criteria.name criteria_name
       , criteria.weight
       , reporter.homeroom_teacher reporter_teacher
@@ -18,14 +19,14 @@ JOIN ( SELECT *
 JOIN tbl_teacher reporter ON report.id_reporter = reporter.NIP
 JOIN tbl_teacher homeroom ON report.id_confirmation = homeroom.NIP
 UNION ALL
-SELECT NULL, student.NISS, student.NISN, student.fullname, NULL, 0, NULL, NULL
+SELECT NULL, student.NISS, student.NISN, student.fullname, student.counseling, NULL, 0, NULL, NULL
 FROM tbl_student student
 WHERE NOT EXISTS ( SELECT NULL
                    FROM tbl_reporting report
                    WHERE report.NISS = student.NISS )
 
 UNION ALL
-SELECT NULL, NULL, NULL, NULL, criteria.name, 0, NULL, NULL
+SELECT NULL, NULL, NULL, NULL, NULL, criteria.name, 0, NULL, NULL
 FROM tbl_criteria criteria
 WHERE NOT EXISTS ( SELECT NULL
                    FROM tbl_reporting report
