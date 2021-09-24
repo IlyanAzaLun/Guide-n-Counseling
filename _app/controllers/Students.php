@@ -26,6 +26,8 @@ class Students extends Controller
 		# code...
 		$data['students'] = $this->model('M_students')->render($class);
 		$data['class'] = $this->request->load_class();
+		$data['notification'] = $this->request->notification();
+
 		$this->page['title'] = 'Siswa';
 		$this->view('components/_header');
 
@@ -35,7 +37,7 @@ class Students extends Controller
 		$this->style('plugins/datatables-responsive/css/responsive.bootstrap4.min');
 		$this->style('plugins/datatables-buttons/css/buttons.bootstrap4.min');
 
-		$this->view('components/sidebar');
+		$this->view('components/sidebar', $data);
 		$this->view('components/content-header');
 		//view
 		$this->view('student/index', $data);
@@ -67,6 +69,7 @@ class Students extends Controller
 
 	public function insert() // create page for promotion or event
 	{
+		$data['notification'] = $this->request->notification();
 		if ($_POST) {
 			if ($this->model('M_students')->insert_student($_POST) > 0) {
 				Flasher::setFlash('success', ',Success !', ',to add student');
@@ -80,7 +83,7 @@ class Students extends Controller
 		}else{
 			$this->page['title'] = 'Siswa';
 			$this->view('components/_header');
-			$this->view('components/sidebar');
+			$this->view('components/sidebar', $data);
 			$this->view('components/content-header');
 			$this->view('components/500');
 			$this->view('components/content-footer');
@@ -116,9 +119,10 @@ class Students extends Controller
 			}
 			unlink($target_file);
 		}else{
+			$data['notification'] = $this->request->notification();
 			$this->page['title'] = 'Siswa';
 			$this->view('components/_header');
-			$this->view('components/sidebar');
+			$this->view('components/sidebar', $data);
 			$this->view('components/content-header');
 			$this->view('components/500');
 			$this->view('components/content-footer');
@@ -136,6 +140,7 @@ class Students extends Controller
 			header('Location: '.BASEURL);
 			exit;
 		}else{
+			$data['notification'] = $this->request->notification();
 			$request_report = $this->model('M_report');
 			$data['report'] = $request_report->select_reportBy_NISS($NISS);
 			$data['date'] = $request_report->select_report_date($NISS);
@@ -143,7 +148,7 @@ class Students extends Controller
 			$this->page['title'] = 'Informasi Siswa';
 			$this->view('components/_header');
 
-			$this->view('components/sidebar');
+			$this->view('components/sidebar', $data);
 			$this->view('components/content-header');
 			//view
 			$this->view('student/info', $data);

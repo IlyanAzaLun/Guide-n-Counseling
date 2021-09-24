@@ -16,6 +16,30 @@
       </ul>
       <!-- Right navbar links -->
       <ul class="navbar-nav ml-auto">
+
+        <!-- Notification -->
+        <li class="nav-item dropdown">
+          <a class="nav-link" data-toggle="dropdown" href="#">
+            <i class="far fa-bell"></i>
+            <?php if (sizeof($data['notification'])): ?>
+            <span class="badge badge-warning navbar-badge"><?=sizeof($data['notification'])?></span>
+            <?php endif ?>
+          </a>
+          <div class="dropdown-menu dropdown-menu-xl dropdown-menu-right">
+            <span class="dropdown-item dropdown-header"><?=sizeof($data['notification'])?> Notifications</span>
+            <?foreach ($data['notification'] as $key => $value):?>
+            <div class="dropdown-divider"></div>
+            <a href="<?=BASEURL?>/students/info/<?=$value['NISS']?>" class="dropdown-item">
+              <i class="fas fa-<?=($value['type'] == "dutiful" ? 'award' : ($value['type'] == "violation" ? 'ban' : 'exclamation-triangle'))?> mr-2"></i> <?=mb_strimwidth($value['fullname'], 0, 10, '...')?>
+              <span class="float-right text-muted text-sm"><?=mb_strimwidth($value['name'], 0, 30, '...')?></span>
+            </a>
+            <?endforeach;?>
+            <div class="dropdown-divider"></div>
+            <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
+          </div>
+        </li>
+        <!-- Notification -->
+        
         <li class="nav-item d-none d-sm-inline-block">
           <a data-toggle="modal" data-target="#logoutModal" class="btn nav-link">Logout <i class="fas fa-sign-out-alt"></i></a>
         </li>

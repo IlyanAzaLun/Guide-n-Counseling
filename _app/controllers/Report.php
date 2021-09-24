@@ -4,25 +4,26 @@
  */
 class Report extends Controller
 {
-	
+	private $request;
 	function __construct()
 	{
 		$this->validator($_SESSION['user'], 'auth');
 		
-		$request = $this->model('M_home')->load_configuration();
+		$this->request = $this->model('M_home');
 		$value = null;
-		foreach ($request as $key) {
+		foreach ($this->request->load_configuration() as $key) {
 			if("title"==$key['variable']){
 				$this->title = $key['value'];
 			};
 		}
+
 	}
 
 	public function index()
 	{
+		$data['notification'] = $this->request->notification();
 		$data['report'] = $this->model('M_report')->report();
-		$data['criteria'] = $this->model('M_criteria')->select_criteria('violation');
-	
+		$data['criteria'] = $this->model('M_criteria')->select_criteria('violation');	
         foreach (($data['report']) as $key => $value) {
         	$data['tmp'] = ($key == @sizeof($data['report'])-1) ? $value['Total'] : '0' ;
         }
@@ -34,7 +35,7 @@ class Report extends Controller
 		$this->style('plugins/datatables-responsive/css/responsive.bootstrap4.min');
 		$this->style('plugins/datatables-buttons/css/buttons.bootstrap4.min');
 
-		$this->view('components/sidebar');
+		$this->view('components/sidebar', $data);
 		$this->view('components/content-header');
 		$this->view('report/index', $data);
 		$this->view('components/content-footer');
@@ -65,16 +66,19 @@ class Report extends Controller
 
 	public function tolerance()
 	{	
+		$data['notification'] = $this->request->notification();		
 		$data['students'] = $this->model('M_students')->students();
 		$data['violation'] = $this->model('M_criteria')->select_criteria('violation');
 		$data['teacher'] = $this->model('M_teacher')->read($_SESSION['user']['NIP']);
+		
+
 		$this->page['title'] = 'Toleransi pelanggaran untuk siswa';
 		$this->view('components/_header');
 
 		$this->style('plugins/select2/css/select2.min');
 		$this->style('plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min');
 
-		$this->view('components/sidebar');
+		$this->view('components/sidebar', $data);
 		$this->view('components/content-header');
 		$this->view('report/tolerance/index', $data);
 		$this->view('components/content-footer');
@@ -89,16 +93,18 @@ class Report extends Controller
 
 	public function violation()
 	{	
+		$data['notification'] = $this->request->notification();		
 		$data['students'] = $this->model('M_students')->students();
 		$data['violation'] = $this->model('M_criteria')->select_criteria('violation');
 		$data['teacher'] = $this->model('M_teacher')->read($_SESSION['user']['NIP']);
+		
 		$this->page['title'] = 'Laporkan perilaku';
 		$this->view('components/_header');
 
 		$this->style('plugins/select2/css/select2.min');
 		$this->style('plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min');
 
-		$this->view('components/sidebar');
+		$this->view('components/sidebar', $data);
 		$this->view('components/content-header');
 		$this->view('report/violation/index', $data);
 		$this->view('components/content-footer');
@@ -113,16 +119,18 @@ class Report extends Controller
 
 	public function dutiful()
 	{
+		$data['notification'] = $this->request->notification();		
 		$data['students'] = $this->model('M_students')->students();
 		$data['dutiful'] = $this->model('M_criteria')->select_criteria('dutiful');
 		$data['teacher'] = $this->model('M_teacher')->read($_SESSION['user']['NIP']);
+		
 		$this->page['title'] = 'Laporkan perilaku';
 		$this->view('components/_header');
 
 		$this->style('plugins/select2/css/select2.min');
 		$this->style('plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min');
 
-		$this->view('components/sidebar');
+		$this->view('components/sidebar', $data);
 		$this->view('components/content-header');
 		$this->view('report/dutiful/index', $data);
 		$this->view('components/content-footer');

@@ -16,16 +16,18 @@ class Home extends Controller
 				$this->title = $key['value'];
 			};
 		}
+
 	}
 	public function index()
 	{	
 		$class = $_SESSION['user']['class'];
 		$data['type'] = $this->request->select_typeCriteriaAnd_value($class);
 		$data['type']['total_student'] = $this->model('M_students')->count_student()['total_students'];
+		$data['notification'] = $this->request->notification();
 		$this->page['title'] = 'Dashboard';
 		$this->view('components/_header');
 
-		$this->view('components/sidebar');
+		$this->view('components/sidebar', $data);
 		$this->view('components/content-header');
 		$this->view('home/index', $data);
 		$this->view('components/content-footer');

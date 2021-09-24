@@ -25,10 +25,11 @@ class Teacher extends Controller
 	public function index()
 	{
 		$data['total_links'] = ceil(sizeof($this->model('M_teacher')->read($_SESSION['user']['NIP']))/$this->limit);
+		$data['notification'] = $this->request->notification();
 		$this->page['title'] = 'Daftar guru wali';
 		$this->view('components/_header');
 
-		$this->view('components/sidebar');
+		$this->view('components/sidebar', $data);
 		$this->view('components/content-header');
 		$this->view('teacher/index', $data);
 		$this->view('teacher/modal', $data);
@@ -84,9 +85,10 @@ class Teacher extends Controller
 				exit;
 			}
 		}else{
+			$data['notification'] = $this->request->notification();
 			$this->page['title'] = 'Students';
 			$this->view('components/_header');
-			$this->view('components/sidebar');
+			$this->view('components/sidebar', $data);
 			$this->view('components/content-header');
 			$this->view('components/500');
 			$this->view('components/content-footer');

@@ -15,6 +15,24 @@ class M_home{
 		return $this->db->resultSet();
 	}
 
+	public function notification()
+	{
+		$this->db->query('SELECT 
+								report.status as report_status
+								, report.type
+								, report.NISS
+								, report.date
+								, criteria.name
+								, student.fullname
+						  FROM tbl_reporting report
+						  JOIN tbl_criteria criteria ON report.id_behavior = criteria.id
+						  JOIN tbl_student student ON report.NISS = student.NISS
+						  WHERE id_confirmation = :confirmation AND report.status = 1');
+		$this->db->bind('confirmation', $_SESSION['user']['NIP']);
+		$this->db->execute();
+		return $this->db->resultSet();	
+	}
+
 	public function load_class()
 	{
 		$this->db->query('SELECT class FROM tbl_teacher WHERE class != "school" OR "staff"');

@@ -22,6 +22,8 @@ class Dutiful extends Controller
 	public function index()
 	{
 		$data['dutiful'] = $this->model('M_criteria')->select_criteria('dutiful');
+		$data['notification'] = $this->request->notification();
+
 		$this->page['title'] = 'Nilai terpuji';
 		$this->view('components/_header');
 				//  datatabels		
@@ -29,7 +31,7 @@ class Dutiful extends Controller
 		$this->style('plugins/datatables-responsive/css/responsive.bootstrap4.min');
 		$this->style('plugins/datatables-buttons/css/buttons.bootstrap4.min');
 
-		$this->view('components/sidebar');
+		$this->view('components/sidebar', $data);
 		$this->view('components/content-header');
 		$this->view('criteria/dutiful/index', $data);
 		$this->view('criteria/dutiful/modal', $data);

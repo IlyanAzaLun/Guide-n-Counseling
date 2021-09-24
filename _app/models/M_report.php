@@ -95,8 +95,24 @@ class M_report
 		for ($i=0; $i < sizeof($data[$type]); $i++) { 
 			for ($j=0; $j < sizeof($data['students']) ; $j++) { 
 				$this->db->query("
-					INSERT INTO tbl_reporting(`id`, `id_behavior`, `type`, `NISS`, `id_reporter`, `id_confirmation`, `message`,`date`)
-					VALUES(uuid(), :id_behavior, :type, :NISS, :id_reporter, :id_confirmation, :message, :date);");
+					INSERT INTO tbl_reporting(`id`
+								, `id_behavior`
+								, `type`
+								, `NISS`
+								, `id_reporter`
+								, `id_confirmation`
+								, `message`
+								, `date`
+								, `status`)
+					VALUES(uuid()
+						  , :id_behavior
+						  , :type
+						  , :NISS
+						  , :id_reporter
+						  , :id_confirmation
+						  , :message
+						  , :date
+						  , 1);");
 				$this->db->bind('id_behavior', $data[$type][$i]);
 				$this->db->bind('type', $data['type']);
 				$this->db->bind('NISS', (explode(',', $data['students'][$j])[0]));

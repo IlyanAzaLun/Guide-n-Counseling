@@ -22,6 +22,7 @@ class Violation extends Controller
 	public function index()
 	{
 		$data['violation'] = $this->model('M_criteria')->select_criteria('violation');
+		$data['notification'] = $this->request->notification();
 		$this->page['title'] = 'Daftar aturan';
 		$this->view('components/_header');
 				//  datatabels		
@@ -29,7 +30,7 @@ class Violation extends Controller
 		$this->style('plugins/datatables-responsive/css/responsive.bootstrap4.min');
 		$this->style('plugins/datatables-buttons/css/buttons.bootstrap4.min');
 
-		$this->view('components/sidebar');
+		$this->view('components/sidebar', $data);
 		$this->view('components/content-header');
 		$this->view('criteria/violation/index', $data);
 		$this->view('criteria/violation/modal', $data);
